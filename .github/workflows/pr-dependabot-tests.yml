@@ -1,0 +1,52 @@
+---
+name: 'PR Dependabot tests'
+
+on:
+  pull_request:
+    paths:
+      - 'tests/*.go'
+      - 'go.mod'
+      - 'go.sum'
+
+permissions:
+  pull-requests: write
+  contents: write
+
+env:
+  DOCKER_IMAGE: ubuntu
+  GH_TOKEN: ${{secrets.GH_TOKEN}}
+
+jobs:
+  dependabot-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'checkout'
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: 'set shell options globally'
+        run: set -euxo pipefail
+        shell: bash
+
+      - name: 'setup go'
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: './go.mod'
+          cache-dependency-path: './go.sum'
+      - run: go version
+
+      - name: 'run tests'
+        run: |
+          go test -run 'TestContainersGo.*' ./... -v
+
+      - name: 'dependabot metadata'
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{env.GH_TOKEN}}
+
+      - name: 'auto-merge for dependabot prs'
+        run: gh pr merge --auto --rebase ${{github.event.pull_request.number}}
+        env:
+          GITHUB_TOKEN: ${{env.GH_TOKEN}}

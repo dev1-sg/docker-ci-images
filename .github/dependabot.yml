@@ -1,0 +1,28 @@
+---
+version: 2
+
+registries:
+  dockerhub-registry:
+    type: docker-registry
+    url: registry.hub.docker.com
+    username: ${{secrets.DOCKERHUB_USERNAME}}
+    password: ${{secrets.DOCKERHUB_PASSWORD}}
+
+updates:
+  - package-ecosystem: docker
+    directories:
+      - "/alpine"
+      - "/alpine-ci"
+      - "/ubuntu"
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: "build"
+    registries: ["dockerhub-registry"]
+
+  - package-ecosystem: gomod
+    directory: "/"
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "tests"
