@@ -19,7 +19,7 @@ var Terraform = struct {
 	AWS_DEFAULT_REGION: "us-east-1",
 	AWS_ECR_PUBLIC_URI: "public.ecr.aws/f7i0q1v8",
 	DOCKER_IMAGE_GROUP: "ci",
-	DOCKER_IMAGE:       "Terraform",
+	DOCKER_IMAGE:       "terraform",
 	DOCKER_IMAGE_TAG:   "latest",
 }
 
@@ -31,9 +31,7 @@ func TestContainersGoPullTerraform(t *testing.T) {
 		},
 	})
 	require.NoError(t, e)
-	defer func() {
-		_ = container.Terminate(ctx)
-	}()
+	container.Terminate(ctx)
 }
 
 func TestContainersGoExecTerraform(t *testing.T) {
@@ -41,17 +39,19 @@ func TestContainersGoExecTerraform(t *testing.T) {
 	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image: Terraform.AWS_ECR_PUBLIC_URI + "/" + Terraform.DOCKER_IMAGE_GROUP + "/" + Terraform.DOCKER_IMAGE + ":" + Terraform.DOCKER_IMAGE_TAG,
-			Cmd:   []string{"echo", "Hello, World!"},
+			Cmd:   []string{"sleep", "10"},
 		},
 		Started: true,
 	})
 	require.NoError(t, e)
-	defer func() {
-		_ = container.Terminate(ctx)
-	}()
-	logs, e := container.Logs(ctx)
+	defer container.Terminate(ctx)
+
+	exitCode, reader, e := container.Exec(ctx, []string{"terraform", "--version"})
 	require.NoError(t, e)
-	output, e := io.ReadAll(logs)
+	require.Equal(t, 0, exitCode)
+
+	output, e := io.ReadAll(reader)
 	require.NoError(t, e)
-	require.Contains(t, string(output), "Hello, World!", "Expected output not found")
+
+	require.Contains(t, string(output), "Terraform", "Expected output not found")
 }
