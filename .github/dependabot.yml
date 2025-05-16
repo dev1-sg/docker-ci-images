@@ -11,9 +11,7 @@ registries:
 updates:
   - package-ecosystem: docker
     directories:
-      - "/alpine"
-      - "/alpine-ci"
-      - "/ubuntu"
+      - "/terraform"
     schedule:
       interval: daily
     commit-message:
