@@ -17,7 +17,7 @@ var Terraform = struct {
 	DOCKER_IMAGE_TAG   string
 }{
 	AWS_DEFAULT_REGION: "us-east-1",
-	AWS_ECR_PUBLIC_URI: "public.ecr.aws/f7i0q1v8",
+	AWS_ECR_PUBLIC_URI: "public.ecr.aws/dev1-sg",
 	DOCKER_IMAGE_GROUP: "ci",
 	DOCKER_IMAGE:       "terraform",
 	DOCKER_IMAGE_TAG:   "latest",

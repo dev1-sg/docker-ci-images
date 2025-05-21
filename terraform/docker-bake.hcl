@@ -1,5 +1,5 @@
 variable "AWS_ECR_PUBLIC_URI" {
-  default = "public.ecr.aws/f7i0q1v8"
+  default = "public.ecr.aws/dev1-sg"
 }
 
 variable "DOCKER_IMAGE_GROUP" {
