@@ -1,0 +1,53 @@
+---
+name: 'PR Dependabot alpine'
+
+on:
+  pull_request:
+    paths:
+      - 'alpine/Dockerfile'
+      - 'alpine/docker-bake.hcl'
+
+permissions:
+  pull-requests: write
+  contents: write
+
+env:
+  DOCKER_IMAGE: alpine
+  GH_TOKEN: ${{secrets.GH_TOKEN}}
+
+jobs:
+  dependabot-pr:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - name: 'checkout'
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: 'set shell options globally'
+        run: set -euxo pipefail
+        shell: bash
+
+      - name: 'set up qemu'
+        uses: docker/setup-qemu-action@v3
+
+      - name: 'set up docker buildx'
+        uses: docker/setup-buildx-action@v3
+
+      - name: 'test build'
+        uses: docker/bake-action@v5
+        with:
+          targets: test
+          workdir: ./${{env.DOCKER_IMAGE}}
+
+      - name: 'dependabot metadata'
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{env.GH_TOKEN}}
+
+      - name: 'auto-merge for dependabot prs'
+        run: gh pr merge --auto --rebase ${{github.event.pull_request.number}}
+        env:
+          GITHUB_TOKEN: ${{env.GH_TOKEN}}
