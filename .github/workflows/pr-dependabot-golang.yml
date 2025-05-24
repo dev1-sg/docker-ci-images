@@ -1,23 +1,23 @@
 ---
-name: 'PR Dependabot terraform'
+name: 'PR Dependabot golang'
 
 on:
   pull_request:
     paths:
-      - './src/terraform/Dockerfile'
-      - './src/terraform/docker-bake.hcl'
+      - './src/golang/Dockerfile'
+      - './src/golang/docker-bake.hcl'
 
 permissions:
   pull-requests: write
   contents: write
 
 env:
-  DOCKER_IMAGE: terraform
+  DOCKER_IMAGE: golang
   GH_TOKEN: ${{secrets.GH_TOKEN}}
 
 jobs:
   dependabot-pr:
-    runs-on: terraform-latest
+    runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
       - name: 'checkout'

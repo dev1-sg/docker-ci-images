@@ -11,7 +11,11 @@ registries:
 updates:
   - package-ecosystem: docker
     directories:
-      - "/terraform"
+      - "/src/alpine"
+      - "/src/golang"
+      - "/src/node"
+      - "/src/python"
+      - "/src/terraform"
     schedule:
       interval: daily
     commit-message:

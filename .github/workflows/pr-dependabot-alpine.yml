@@ -4,8 +4,8 @@ name: 'PR Dependabot alpine'
 on:
   pull_request:
     paths:
-      - 'alpine/Dockerfile'
-      - 'alpine/docker-bake.hcl'
+      - './src/alpine/Dockerfile'
+      - './src/alpine/docker-bake.hcl'
 
 permissions:
   pull-requests: write
@@ -39,7 +39,7 @@ jobs:
         uses: docker/bake-action@v5
         with:
           targets: test
-          workdir: ./${{env.DOCKER_IMAGE}}
+          workdir: ./src/${{env.DOCKER_IMAGE}}
 
       - name: 'dependabot metadata'
         id: metadata

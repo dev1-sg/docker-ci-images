@@ -1,13 +1,13 @@
 ---
-name: 'Push terraform'
+name: 'Push python'
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'src/terraform/Dockerfile'
-      - 'src/terraform/docker-bake.hcl'
+      - 'src/python/Dockerfile'
+      - 'src/python/docker-bake.hcl'
   workflow_dispatch:
 
 permissions:
@@ -18,7 +18,7 @@ env:
   AWS_DEFAULT_REGION: us-east-1
   AWS_OIDC_ROLE_ARN: ${{secrets.AWS_OIDC_ROLE_ARN}}
   DOCKER_IMAGE_GROUP: ci
-  DOCKER_IMAGE: terraform
+  DOCKER_IMAGE: python
 
 jobs:
   build-push:
@@ -55,7 +55,7 @@ jobs:
       - name: 'extract version from dockerfile'
         id: extract_version
         run: |
-          DOCKER_IMAGE_TAG=$(sed -n 's/^ARG TERRAFORM_VERSION=v\?\([0-9.]*\).*/\1/p' ./src/${{env.DOCKER_IMAGE}}/Dockerfile)
+          DOCKER_IMAGE_TAG=$(sed -n 's/^FROM .*:\([^ -]*\).*/\1/p' ./src/${{env.DOCKER_IMAGE}}/Dockerfile)
           echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}"
 

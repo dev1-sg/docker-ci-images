@@ -6,8 +6,8 @@ on:
     branches:
       - main
     paths:
-      - 'alpine/Dockerfile'
-      - 'alpine/docker-bake.hcl'
+      - 'src/alpine/Dockerfile'
+      - 'src/alpine/docker-bake.hcl'
   workflow_dispatch:
 
 permissions:
@@ -55,7 +55,7 @@ jobs:
       - name: 'extract version from dockerfile'
         id: extract_version
         run: |
-          DOCKER_IMAGE_TAG=$(sed -n 's/^FROM .*:\([^ -]*\).*/\1/p' ./${{env.DOCKER_IMAGE}}/Dockerfile)
+          DOCKER_IMAGE_TAG=$(sed -n 's/^FROM .*:\([^ -]*\).*/\1/p' ./src/${{env.DOCKER_IMAGE}}/Dockerfile)
           echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}"
 
@@ -67,4 +67,4 @@ jobs:
         uses: docker/bake-action@v5
         with:
           targets: push
-          workdir: ./${{env.DOCKER_IMAGE}}
+          workdir: ./src/${{env.DOCKER_IMAGE}}
