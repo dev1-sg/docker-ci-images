@@ -12,6 +12,7 @@ updates:
   - package-ecosystem: docker
     directories:
       - "/src/alpine"
+      - "/src/ansible"
       - "/src/golang"
       - "/src/node"
       - "/src/python"
@@ -28,3 +29,11 @@ updates:
       interval: weekly
     commit-message:
       prefix: "tests"
+
+  - package-ecosystem: poetry
+    directories:
+      - "/src/ansible"
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: "build"

@@ -2,21 +2,22 @@
 
 FROM docker.io/python:3.13.3-alpine AS base
 
-USER root
-
 ARG POETRY_VERSION=2.1.3
 
-ENV TZ=Asia/Singapore \
+USER root
+
+ENV HOME=/root \
+    TZ=Asia/Singapore \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
     LC_ALL=en_US.UTF-8 \
-    POETRY_HOME="/opt/poetry" \
-    POETRY_VENV="/opt/poetry/venv" \
-    POETRY_CACHE_DIR="/opt/poetry/cache" \
     POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_CREATE=false
+    POETRY_VIRTUALENVS_IN_PROJECT=1 \
+    POETRY_VIRTUALENVS_CREATE=1 \
+    POETRY_CACHE_DIR="${HOME}/.cache/pypoetry" \
+    POETRY_HOME=/opt/poetry
 
-ENV PATH="${POETRY_HOME}/bin:${PATH}"
+ENV PATH="${POETRY_HOME}/bin:${POETRY_HOME}/venv/bin:${PATH}"
 
 WORKDIR /app
 
