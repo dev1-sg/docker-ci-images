@@ -1,0 +1,71 @@
+---
+name: 'Push packer'
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/packer/Dockerfile'
+      - 'src/packer/docker-bake.hcl'
+      - 'src/packer/pyproject.toml'
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_OIDC_ROLE_ARN: ${{secrets.AWS_OIDC_ROLE_ARN}}
+  DOCKER_IMAGE_GROUP: ci
+  DOCKER_IMAGE: packer
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'checkout'
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: 'set shell options globally'
+        run: set -euxo pipefail
+        shell: bash
+
+      - name: 'setup qemu'
+        uses: docker/setup-qemu-action@v3
+
+      - name: 'setup docker buildx'
+        uses: docker/setup-buildx-action@v3
+
+      - name: 'configure aws credentials'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{env.AWS_OIDC_ROLE_ARN}}
+          role-session-name: aws-oidc-${{github.repository.name}}-${{github.run_id}}
+          aws-region: ${{env.AWS_DEFAULT_REGION}}
+
+      - name: 'login to amazon ecr public'
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
+
+      - name: 'extract version from dockerfile'
+        id: extract_version
+        run: |
+          DOCKER_IMAGE_TAG=$(sed -n 's/^FROM .*:\([^ -]*\).*/\1/p' ./src/${{env.DOCKER_IMAGE}}/Dockerfile)
+          echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}"
+
+      - name: 'create ecr public repository'
+        run: |
+          aws ecr-public create-repository --repository-name ${{env.DOCKER_IMAGE_GROUP}}/${{env.DOCKER_IMAGE}} --region ${{env.AWS_DEFAULT_REGION}} || true
+
+      - name: 'build-push'
+        uses: docker/bake-action@v5
+        with:
+          targets: push
+          workdir: ./src/${{env.DOCKER_IMAGE}}
