@@ -8,6 +8,7 @@ on:
     paths:
       - 'src/ansible/Dockerfile'
       - 'src/ansible/docker-bake.hcl'
+      - 'src/ansible/pyproject.toml'
   workflow_dispatch:
 
 permissions:
