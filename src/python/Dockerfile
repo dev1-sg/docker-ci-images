@@ -17,7 +17,7 @@ ENV HOME=/root \
     POETRY_CACHE_DIR="${HOME}/.cache/pypoetry" \
     POETRY_HOME=/opt/poetry
 
-ENV PATH="${POETRY_HOME}/bin:${POETRY_HOME}/venv/bin:${PATH}"
+ENV PATH="${POETRY_HOME}/bin:${POETRY_HOME}/.venv/bin:${PATH}"
 
 WORKDIR /app
 

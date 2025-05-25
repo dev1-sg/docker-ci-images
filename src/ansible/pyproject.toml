@@ -2,9 +2,9 @@
 package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.13"
-boto3 = "^1.36.22"
-ansible = "^11.2.0"
+python = ">=3.11"
+boto3 = "1.36.22"
+ansible = "11.2.0"
 
 [build-system]
 requires = ["poetry-core"]
