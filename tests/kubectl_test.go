@@ -46,12 +46,12 @@ func TestContainersGoExecKubectl(t *testing.T) {
 	require.NoError(t, e)
 	defer container.Terminate(ctx)
 
-	exitCode, reader, e := container.Exec(ctx, []string{"kubectl", "--version"})
+	exitCode, reader, e := container.Exec(ctx, []string{"kubectl", "version"})
 	require.NoError(t, e)
 	require.Equal(t, 0, exitCode)
 
 	output, e := io.ReadAll(reader)
 	require.NoError(t, e)
 
-	require.Contains(t, string(output), "kubectl", "Expected output not found")
+	require.Contains(t, string(output), "Client Version", "Expected output not found")
 }

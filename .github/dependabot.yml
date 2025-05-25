@@ -14,7 +14,9 @@ updates:
       - "/src/alpine"
       - "/src/ansible"
       - "/src/golang"
+      - "/src/kubectl"
       - "/src/node"
+      - "/src/packer"
       - "/src/python"
       - "/src/terraform"
     schedule:

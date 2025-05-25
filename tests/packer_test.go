@@ -53,5 +53,5 @@ func TestContainersGoExecPacker(t *testing.T) {
 	output, e := io.ReadAll(reader)
 	require.NoError(t, e)
 
-	require.Contains(t, string(output), "packer", "Expected output not found")
+	require.Contains(t, string(output), "Packer", "Expected output not found")
 }
