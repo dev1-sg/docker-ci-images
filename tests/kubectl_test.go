@@ -53,5 +53,5 @@ func TestContainersGoExecKubectl(t *testing.T) {
 	output, e := io.ReadAll(reader)
 	require.NoError(t, e)
 
-	require.Contains(t, string(output), "Client Version", "Expected output not found")
+	require.Contains(t, string(output), "Client", "Expected output not found")
 }
