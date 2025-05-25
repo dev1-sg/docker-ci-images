@@ -46,7 +46,7 @@ func TestContainersGoExecKubectl(t *testing.T) {
 	require.NoError(t, e)
 	defer container.Terminate(ctx)
 
-	exitCode, reader, e := container.Exec(ctx, []string{"kubectl", "version"})
+	exitCode, reader, e := container.Exec(ctx, []string{"kubectl", "version", "--client"})
 	require.NoError(t, e)
 	require.Equal(t, 0, exitCode)
 
