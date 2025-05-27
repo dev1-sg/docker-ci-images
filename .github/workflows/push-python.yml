@@ -1,13 +1,12 @@
 ---
-name: 'Push python'
+name: Push python
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'src/python/Dockerfile'
-      - 'src/python/docker-bake.hcl'
+      - src/python/*
   workflow_dispatch:
 
 permissions:
@@ -16,7 +15,7 @@ permissions:
 
 env:
   AWS_DEFAULT_REGION: us-east-1
-  AWS_OIDC_ROLE_ARN: ${{secrets.AWS_OIDC_ROLE_ARN}}
+  AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
   DOCKER_IMAGE_GROUP: ci
   DOCKER_IMAGE: python
 
@@ -24,47 +23,43 @@ jobs:
   build-push:
     runs-on: ubuntu-latest
     steps:
-      - name: 'checkout'
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
+      - uses: actions/checkout@v4
 
-      - name: 'set shell options globally'
+      - name: Set shell options
         run: set -euxo pipefail
-        shell: bash
 
-      - name: 'setup qemu'
+      - name: Setup qemu
         uses: docker/setup-qemu-action@v3
 
-      - name: 'setup docker buildx'
+      - name: Setup docker buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: 'configure aws credentials'
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{env.AWS_OIDC_ROLE_ARN}}
-          role-session-name: aws-oidc-${{github.repository.name}}-${{github.run_id}}
-          aws-region: ${{env.AWS_DEFAULT_REGION}}
+          role-to-assume: ${{ env.AWS_OIDC_ROLE_ARN }}
+          role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
 
-      - name: 'login to amazon ecr public'
+      - name: Login to AWS ECR Public Registry
         id: login-ecr-public
         uses: aws-actions/amazon-ecr-login@v2
         with:
           registry-type: public
 
-      - name: 'extract version from dockerfile'
+      - name: Extract Version from Dockerfile
         id: extract_version
         run: |
-          DOCKER_IMAGE_TAG=$(sed -n 's/^FROM .*:\([^ -]*\).*/\1/p' ./src/${{env.DOCKER_IMAGE}}/Dockerfile)
+          DOCKER_IMAGE_TAG=$(sed -n 's/^FROM .*:\([^ -]*\).*/\1/p' ./src/${{ env.DOCKER_IMAGE }}/Dockerfile)
           echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}"
 
-      - name: 'create ecr public repository'
+      - name: Create AWS ECR Public Repository
         run: |
-          aws ecr-public create-repository --repository-name ${{env.DOCKER_IMAGE_GROUP}}/${{env.DOCKER_IMAGE}} --region ${{env.AWS_DEFAULT_REGION}} || true
+          aws ecr-public create-repository --repository-name ${{ env.DOCKER_IMAGE_GROUP }}/${{ env.DOCKER_IMAGE }} --region ${{ env.AWS_DEFAULT_REGION }} || true
 
-      - name: 'build-push'
+      - name: Docker build & push
         uses: docker/bake-action@v5
         with:
           targets: push
-          workdir: ./src/${{env.DOCKER_IMAGE}}
+          workdir: ./src/${{ env.DOCKER_IMAGE }}

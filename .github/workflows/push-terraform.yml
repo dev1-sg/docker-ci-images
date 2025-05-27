@@ -52,19 +52,19 @@ jobs:
         with:
           registry-type: public
 
-      - name: 'extract version from dockerfile'
+      - name: Extract Version from Dockerfile
         id: extract_version
         run: |
-          DOCKER_IMAGE_TAG=$(sed -n 's/^ARG TERRAFORM_VERSION=v\?\([0-9.]*\).*/\1/p' ./src/${{env.DOCKER_IMAGE}}/Dockerfile)
+          DOCKER_IMAGE_TAG=$(sed -n 's/^ARG TERRAFORM_VERSION=v\?\([0-9.]*\).*/\1/p' ./src/${{ env.DOCKER_IMAGE }}/Dockerfile)
           echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}"
 
-      - name: 'create ecr public repository'
+      - name: Create AWS ECR Public Repository
         run: |
-          aws ecr-public create-repository --repository-name ${{env.DOCKER_IMAGE_GROUP}}/${{env.DOCKER_IMAGE}} --region ${{env.AWS_DEFAULT_REGION}} || true
+          aws ecr-public create-repository --repository-name ${{ env.DOCKER_IMAGE_GROUP }}/${{ env.DOCKER_IMAGE }} --region ${{ env.AWS_DEFAULT_REGION }} || true
 
-      - name: 'build-push'
+      - name: Docker build & push
         uses: docker/bake-action@v5
         with:
           targets: push
-          workdir: ./src/${{env.DOCKER_IMAGE}}
+          workdir: ./src/${{ env.DOCKER_IMAGE }}
