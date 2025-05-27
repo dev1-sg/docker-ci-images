@@ -11,6 +11,14 @@ on:
   schedule:
     - cron: 0 6 * * *
 
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+
 jobs:
   schedule-testcontainers:
     runs-on: ubuntu-latest
@@ -20,6 +28,13 @@ jobs:
 
       - name: Set shell options
         run: set -euxo pipefail
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_OIDC_ROLE_ARN }}
+          role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
 
       - name: Login to Amazon ECR Public
         id: login-ecr-public

@@ -11,31 +11,31 @@ registries:
 updates:
   - package-ecosystem: docker
     directories:
-      - "/src/alpine"
-      - "/src/ansible"
-      - "/src/golang"
-      - "/src/kubectl"
-      - "/src/node"
-      - "/src/packer"
-      - "/src/python"
-      - "/src/terraform"
+      - /src/alpine
+      - /src/ansible
+      - /src/golang
+      - /src/kubectl
+      - /src/node
+      - /src/packer
+      - /src/python
+      - /src/terraform
     schedule:
       interval: daily
     commit-message:
-      prefix: "build"
-    registries: ["dockerhub-registry"]
+      prefix: build
+    registries: [dockerhub-registry]
 
   - package-ecosystem: gomod
-    directory: "/"
+    directory: /
     schedule:
       interval: weekly
     commit-message:
-      prefix: "tests"
+      prefix: tests
 
   - package-ecosystem: poetry
     directories:
-      - "/src/ansible"
+      - /src/ansible
     schedule:
       interval: daily
     commit-message:
-      prefix: "build"
+      prefix: build
