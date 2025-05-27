@@ -1,36 +1,33 @@
 ---
-name: 'Schedule testcontainers'
+name: Schedule testcontainers
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'tests/**'
+      - tests/*
   workflow_dispatch:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: 0 6 * * *
 
 jobs:
   schedule-testcontainers:
     runs-on: ubuntu-latest
     steps:
-      - name: 'checkout'
+      - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          show-progress: false
 
-      - name: 'set shell options globally'
+      - name: Set shell options
         run: set -euxo pipefail
-        shell: bash
 
-      - name: 'setup go'
+      - name: Setup go
         uses: actions/setup-go@v5
         with:
-          go-version-file: './go.mod'
-          cache-dependency-path: './go.sum'
+          go-version-file: ./go.mod
+          cache-dependency-path: ./go.sum
       - run: go version
 
-      - name: 'run tests'
+      - name: Run go tests
         run: |
           go test -run 'TestContainersGo.*' ./... -v

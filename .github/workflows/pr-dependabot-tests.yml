@@ -21,7 +21,8 @@ jobs:
   dependabot-pr:
     runs-on: ubuntu-latest
     steps:
-      - name: 'checkout'
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Set shell options
         run: set -euxo pipefail
