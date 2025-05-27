@@ -21,6 +21,19 @@ jobs:
       - name: Set shell options
         run: set -euxo pipefail
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_OIDC_ROLE_ARN }}
+          role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      - name: Login to Amazon ECR Public
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
+
       - name: Setup go
         uses: actions/setup-go@v5
         with:
