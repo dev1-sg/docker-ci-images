@@ -4,7 +4,7 @@ name: PR Dependabot alpine
 on:
   pull_request:
     paths:
-      - ./src/alpine/*
+      - src/alpine/*
   workflow_dispatch:
 
 permissions:

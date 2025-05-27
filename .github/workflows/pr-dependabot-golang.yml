@@ -4,7 +4,7 @@ name: PR Dependabot golang
 on:
   pull_request:
     paths:
-      - ./src/golang/*
+      - src/golang/*
   workflow_dispatch:
 
 permissions:

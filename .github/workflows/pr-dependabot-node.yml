@@ -4,7 +4,7 @@ name: PR Dependabot node
 on:
   pull_request:
     paths:
-      - ./src/node/*
+      - src/node/*
   workflow_dispatch:
 
 permissions:

@@ -17,11 +17,11 @@ ENV PATH="${PNPM_HOME}:${PATH}"
 
 WORKDIR /app
 
+RUN corepack enable \
+    && corepack prepare pnpm@${PNPM_VERSION} --activate \
+    && corepack prepare yarn@${YARN_VERSION} --activate
+
 RUN apk add --no-cache \
     sudo bash git aws-cli curl ca-certificates jq \
     && rm -rf /var/cache/apk/* \
     && ln -s /var/cache/apk /etc/apk/cache
-
-RUN corepack enable \
-    && corepack prepare pnpm@${PNPM_VERSION} --activate \
-    && corepack prepare yarn@${YARN_VERSION} --activate

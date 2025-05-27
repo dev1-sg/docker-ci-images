@@ -4,7 +4,7 @@ name: PR Dependabot ansible
 on:
   pull_request:
     paths:
-      - ./src/ansible/*
+      - src/ansible/*
   workflow_dispatch:
 
 permissions:
