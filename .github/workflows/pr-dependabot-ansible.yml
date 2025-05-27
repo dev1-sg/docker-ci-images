@@ -1,11 +1,10 @@
 ---
-name: 'PR Dependabot ansible'
+name: PR Dependabot ansible
 
 on:
   pull_request:
     paths:
-      - './src/ansible/Dockerfile'
-      - './src/ansible/docker-bake.hcl'
+      - ./src/ansible/*
 
 permissions:
   pull-requests: write
@@ -13,41 +12,35 @@ permissions:
 
 env:
   DOCKER_IMAGE: ansible
-  GH_TOKEN: ${{secrets.GH_TOKEN}}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 jobs:
   dependabot-pr:
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
-      - name: 'checkout'
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
+      - uses: actions/checkout@v4
+      - run: set -euxo pipefail
 
-      - name: 'set shell options globally'
-        run: set -euxo pipefail
-        shell: bash
-
-      - name: 'set up qemu'
+      - name: Setup qemu
         uses: docker/setup-qemu-action@v3
 
-      - name: 'set up docker buildx'
+      - name: Setup docker buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: 'test build'
+      - name: Run docker buildx test
         uses: docker/bake-action@v5
         with:
           targets: test
-          workdir: ./src/${{env.DOCKER_IMAGE}}
+          workdir: ./src/${{ env.DOCKER_IMAGE }}
 
-      - name: 'dependabot metadata'
+      - name: Setup Dependabot Metadata
         id: metadata
         uses: dependabot/fetch-metadata@v2
         with:
           github-token: ${{env.GH_TOKEN}}
 
-      - name: 'auto-merge for dependabot prs'
-        run: gh pr merge --auto --rebase ${{github.event.pull_request.number}}
+      - name: Auto-merge for Dependabot PR
+        run: gh pr merge --auto --rebase ${{ github.event.pull_request.number }}
         env:
-          GITHUB_TOKEN: ${{env.GH_TOKEN}}
+          GITHUB_TOKEN: ${{ env.GH_TOKEN }}
