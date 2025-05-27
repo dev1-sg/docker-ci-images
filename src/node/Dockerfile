@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM docker.io/node:24.0.2-alpine AS base
+FROM docker.io/node:24.1.0-alpine AS base
 
 USER root
 
