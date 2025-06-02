@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM public.ecr.aws/dev1-sg/ci/alpine:3.21 AS base
+FROM public.ecr.aws/dev1-sg/ci/alpine:3.22 AS base
 
 FROM base AS build
 
