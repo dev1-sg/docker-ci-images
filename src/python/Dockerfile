@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM docker.io/python:3.13.3-alpine AS base
+FROM docker.io/python:3.13.4-alpine AS base
 
 ARG POETRY_VERSION=2.1.3
 
