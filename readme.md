@@ -9,8 +9,8 @@ readme Docs are updated daily. Please check the gallery for the latest updates.
 [https://gallery.ecr.aws/dev1-sg/](https://gallery.ecr.aws/dev1-sg/)
 
 
-| Number | Repository Name | Group | URI | Latest Tag |
-|--------|-----------------|-------|-----|------------|
+| # | Repository Name | Group | URI | Latest Tag |
+|---|-----------------|-------|-----|------------|
 | 1 | [ci/alpine](https://gallery.ecr.aws/dev1-sg/ci/alpine) | ci | public.ecr.aws/dev1-sg/ci/alpine | 3.21 |
 | 2 | [ci/ansible](https://gallery.ecr.aws/dev1-sg/ci/ansible) | ci | public.ecr.aws/dev1-sg/ci/ansible | 3.13.3 |
 | 3 | [ci/debian](https://gallery.ecr.aws/dev1-sg/ci/debian) | ci | public.ecr.aws/dev1-sg/ci/debian | bookworm |
@@ -20,3 +20,8 @@ readme Docs are updated daily. Please check the gallery for the latest updates.
 | 7 | [ci/packer](https://gallery.ecr.aws/dev1-sg/ci/packer) | ci | public.ecr.aws/dev1-sg/ci/packer | 1.11.2 |
 | 8 | [ci/python](https://gallery.ecr.aws/dev1-sg/ci/python) | ci | public.ecr.aws/dev1-sg/ci/python | 3.13.4 |
 | 9 | [ci/terraform](https://gallery.ecr.aws/dev1-sg/ci/terraform) | ci | public.ecr.aws/dev1-sg/ci/terraform | 1.12.0 |
+
+
+---
+
+last_updated: 2025-06-07 14:22 +08
