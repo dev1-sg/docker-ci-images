@@ -14,6 +14,7 @@ permissions:
 env:
   DOCKER_IMAGE: alpine
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  TZ: Asia/Singapore
 
 jobs:
   dependabot-pr:

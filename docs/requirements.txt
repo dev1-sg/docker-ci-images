@@ -1,3 +1,4 @@
+tzlocal
 boto3
 botocore
 jinja2

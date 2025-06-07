@@ -14,6 +14,7 @@ env:
   AWS_DEFAULT_REGION: us-east-1
   AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
   GH_TOKEN: ${{secrets.GH_TOKEN}}
+  TZ: Asia/Singapore
 
 jobs:
   run-push:

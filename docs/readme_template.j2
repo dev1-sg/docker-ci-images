@@ -9,8 +9,12 @@ readme Docs are updated daily. Please check the gallery for the latest updates.
 [https://gallery.ecr.aws/dev1-sg/](https://gallery.ecr.aws/dev1-sg/)
 
 
-| Number | Repository Name | Group | URI | Latest Tag |
-|--------|-----------------|-------|-----|------------|
+| # | Repository Name | Group | URI | Latest Tag |
+|---|-----------------|-------|-----|------------|
 {% for item in items -%}
 | {{ item.number }} | [{{ item.name }}](https://gallery.ecr.aws/dev1-sg/{{ item.name }}) | {{ item.group }} | {{ item.uri }} | {{ item.latest_tag }} |
 {% endfor %}
+
+---
+
+last_updated: {{ updated_at }}

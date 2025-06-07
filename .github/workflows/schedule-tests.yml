@@ -18,6 +18,7 @@ permissions:
 env:
   AWS_DEFAULT_REGION: us-east-1
   AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+  TZ: Asia/Singapore
 
 jobs:
   schedule-testcontainers:

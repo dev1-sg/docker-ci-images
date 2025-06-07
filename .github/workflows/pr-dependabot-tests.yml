@@ -16,6 +16,7 @@ permissions:
 env:
   DOCKER_IMAGE: ubuntu
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  TZ: Asia/Singapore
 
 jobs:
   dependabot-pr:

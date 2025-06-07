@@ -1,10 +1,14 @@
 DOCS_OUTPUT = "../readme.md"
+DOCS_TEMPLATE = "readme_template.j2"
 REGISTRY_ALIAS = "dev1-sg"
 REGISTRY_GROUP = "ci"
 REGISTRY_URI = f"public.ecr.aws/{REGISTRY_ALIAS}"
 REGISTRY_ENDPOINT_REGION = "us-east-1"
 REGISTRY_ENDPOINT_URL = f"https://ecr-public.{REGISTRY_ENDPOINT_REGION}.amazonaws.com"
 
+from datetime import datetime
+from zoneinfo import ZoneInfo
+from tzlocal import get_localzone_name
 import boto3
 from botocore.config import Config
 from jinja2 import Template
@@ -44,7 +48,10 @@ def get_latest_tags(client, repo_name):
         return ["N/A"]
 
 def main():
-    template = Template(load_template("template.j2").strip())
+    system_tz = get_localzone_name()
+    now_local = datetime.now(ZoneInfo(system_tz)).strftime("%Y-%m-%d %H:%M %Z")
+
+    template = Template(load_template(DOCS_TEMPLATE).strip())
     client = get_ecr_client()
 
     repos = sorted(get_repositories(client, prefix=REGISTRY_GROUP + "/"), key=lambda r: r["repositoryName"])
@@ -60,11 +67,10 @@ def main():
             "latest_tag": get_latest_tags(client, name)[0],
         })
 
-    output = template.render(items=items)
+    output = template.render(items=items, updated_at=now_local)
     print(output)
     with open(DOCS_OUTPUT, "w") as f:
         f.write(output)
-
 
 if __name__ == "__main__":
     main()
