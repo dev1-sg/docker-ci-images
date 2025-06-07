@@ -11,7 +11,7 @@ readme Docs are updated daily. Please check the gallery for the latest updates.
 
 | # | Repository Name | Group | URI | Latest Tag |
 |---|-----------------|-------|-----|------------|
-| 1 | [ci/alpine](https://gallery.ecr.aws/dev1-sg/ci/alpine) | ci | public.ecr.aws/dev1-sg/ci/alpine | 3.21 |
+| 1 | [ci/alpine](https://gallery.ecr.aws/dev1-sg/ci/alpine) | ci | public.ecr.aws/dev1-sg/ci/alpine | 3.22 |
 | 2 | [ci/ansible](https://gallery.ecr.aws/dev1-sg/ci/ansible) | ci | public.ecr.aws/dev1-sg/ci/ansible | 3.13.3 |
 | 3 | [ci/debian](https://gallery.ecr.aws/dev1-sg/ci/debian) | ci | public.ecr.aws/dev1-sg/ci/debian | bookworm |
 | 4 | [ci/golang](https://gallery.ecr.aws/dev1-sg/ci/golang) | ci | public.ecr.aws/dev1-sg/ci/golang | 1.24.4 |
@@ -24,4 +24,4 @@ readme Docs are updated daily. Please check the gallery for the latest updates.
 
 ---
 
-last_updated: 2025-06-07 14:22 +08
+last_updated: 2025-06-07 16:42 +08
