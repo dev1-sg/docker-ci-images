@@ -1,9 +1,9 @@
 ---
-name: Docs update
+name: Docs readme update
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # Every day at 8:00 AM UTC
+    - cron: '0 8 * * *'
   workflow_dispatch:
 
 permissions:
@@ -30,6 +30,7 @@ jobs:
         with:
           python-version: '3.12'
           cache: 'pip'
+          cache-dependency-path: docs/requirements.txt
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
