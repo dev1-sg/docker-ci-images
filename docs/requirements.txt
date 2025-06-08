@@ -1,5 +1,5 @@
 tzlocal
+jinja2
 boto3
 botocore
-jinja2
 docker

@@ -1,12 +1,15 @@
+import locale
 from datetime import datetime
-from zoneinfo import ZoneInfo
-from tzlocal import get_localzone_name
+
+now = datetime.now().astimezone()
+print(now.strftime("%c"), now.tzname(), locale.getlocale())
+
 import boto3
 from botocore.config import Config
 from jinja2 import Template
 
-DOCS_OUTPUT = "../readme.md"
-DOCS_TEMPLATE = "readme_template.j2"
+INPUT_TEMPLATE = "readme_template.j2"
+OUTPUT_README = "../readme.md"
 REGISTRY_ALIAS = "dev1-sg"
 REGISTRY_GROUP = "ci"
 REGISTRY_URI = f"public.ecr.aws/{REGISTRY_ALIAS}"
@@ -27,7 +30,8 @@ def get_ecr_client():
 
 def get_repositories(client, prefix=None):
     repos = []
-    for page in client.get_paginator("describe_repositories").paginate():
+    paginator = client.get_paginator("describe_repositories")
+    for page in paginator.paginate():
         for repo in page.get("repositories", []):
             name = repo["repositoryName"]
             if prefix is None or name.startswith(prefix):
@@ -54,10 +58,9 @@ def get_latest_tag_and_size(client, repo_name):
         return "N/A", 0
 
 def main():
-    system_tz = get_localzone_name()
-    now_local = datetime.now(ZoneInfo(system_tz)).strftime("%Y-%m-%d %H:%M %Z")
+    updated_time = now.strftime("%c"), now.tzname()
 
-    template = Template(load_template(DOCS_TEMPLATE), trim_blocks=True, lstrip_blocks=True)
+    template = Template(load_template(INPUT_TEMPLATE), trim_blocks=True, lstrip_blocks=True)
     client = get_ecr_client()
 
     repos = sorted(get_repositories(client, prefix=REGISTRY_GROUP + "/"), key=lambda r: r["repositoryName"])
@@ -75,9 +78,9 @@ def main():
             "size": f"{size / (1024 * 1024):.2f} MB" if size else "N/A",
         })
 
-    output = template.render(items=items, updated_at=now_local)
+    output = template.render(items=items, updated_at=updated_time)
     print(output)
-    with open(DOCS_OUTPUT, "w") as f:
+    with open(OUTPUT_README, "w") as f:
         f.write(output)
 
 if __name__ == "__main__":
