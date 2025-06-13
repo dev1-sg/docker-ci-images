@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM docker.io/python:3.13.4-alpine AS base
+FROM docker.io/python:3.13.5-alpine AS base
 
 USER root
 
