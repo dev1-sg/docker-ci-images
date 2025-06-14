@@ -8,7 +8,7 @@ import boto3
 from botocore.config import Config
 from jinja2 import Template
 
-INPUT_TEMPLATE = "readme_template.j2"
+INPUT_TEMPLATE = "../template/readme.j2"
 OUTPUT_README = "../readme.md"
 REGISTRY_ALIAS = "dev1-sg"
 REGISTRY_GROUP = "ci"
