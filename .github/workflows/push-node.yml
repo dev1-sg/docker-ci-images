@@ -97,7 +97,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python3 docs/query-node-image.py
+      - run: python3 ./docs/query-node-image.py
 
       - name: 'commit update'
         env:

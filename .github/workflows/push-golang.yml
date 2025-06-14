@@ -95,7 +95,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python3 docs/query-golang-image.py
+      - run: python3 ./docs/query-golang-image.py
 
       - name: 'commit update'
         env:
