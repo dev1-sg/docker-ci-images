@@ -1,0 +1,51 @@
+---
+name: PR Dependabot {{ DOCKER_IMAGE }}
+
+on:
+  pull_request:
+    paths:
+      - src/{{ DOCKER_IMAGE }}/*
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: write
+
+env:
+  DOCKER_IMAGE: {{ DOCKER_IMAGE }}
+  GH_TOKEN: {{ '${{ secrets.GH_TOKEN }}' }}
+  TZ: Asia/Singapore
+
+jobs:
+  dependabot-pr:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set shell options
+        run: set -euxo pipefail
+
+      - name: Setup qemu
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Run docker buildx test
+        uses: docker/bake-action@v5
+        with:
+          targets: test
+          workdir: ./src/{{ '${{ env.DOCKER_IMAGE }}' }}
+
+      - name: Setup Dependabot Metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: {{ '${{ env.GH_TOKEN }}' }}
+
+      - name: Auto-merge for Dependabot PR
+        run: gh pr merge --auto --rebase {{ '${{ github.event.pull_request.number }}' }}
+        env:
+          GITHUB_TOKEN: {{ '${{ env.GH_TOKEN }}' }}
