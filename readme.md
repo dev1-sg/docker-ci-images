@@ -18,10 +18,10 @@ readme Docs are updated daily. Please check the regsitry gallery for the latest 
 | 5 | [ci/kubectl](https://gallery.ecr.aws/dev1-sg/ci/kubectl) | ci | public.ecr.aws/dev1-sg/ci/kubectl | 1.32.0 | 97.86 MB |
 | 6 | [ci/node](https://gallery.ecr.aws/dev1-sg/ci/node) | ci | public.ecr.aws/dev1-sg/ci/node | 24.2.0 | 104.95 MB |
 | 7 | [ci/packer](https://gallery.ecr.aws/dev1-sg/ci/packer) | ci | public.ecr.aws/dev1-sg/ci/packer | 1.11.2 | 62.68 MB |
-| 8 | [ci/python](https://gallery.ecr.aws/dev1-sg/ci/python) | ci | public.ecr.aws/dev1-sg/ci/python | 3.13.4 | 63.03 MB |
+| 8 | [ci/python](https://gallery.ecr.aws/dev1-sg/ci/python) | ci | public.ecr.aws/dev1-sg/ci/python | 3.13.5 | 63.03 MB |
 | 9 | [ci/terraform](https://gallery.ecr.aws/dev1-sg/ci/terraform) | ci | public.ecr.aws/dev1-sg/ci/terraform | 1.12.0 | 163.00 MB |
 | 10 | [ci/ubuntu](https://gallery.ecr.aws/dev1-sg/ci/ubuntu) | ci | public.ecr.aws/dev1-sg/ci/ubuntu | noble | 94.55 MB |
 
 ---
 
-last_updated: ('Fri Jun 13 16:30:49 2025', '+08')
+last_updated: ('Sat Jun 14 16:27:09 2025', '+08')
