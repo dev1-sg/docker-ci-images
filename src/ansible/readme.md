@@ -12,10 +12,10 @@
 
 ```bash
 PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-HOSTNAME=6d8adc27c63c
+HOSTNAME=fb18abed1687
 GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305
-PYTHON_VERSION=3.13.4
-PYTHON_SHA256=27b15a797562a2971dce3ffe31bb216042ce0b995b39d768cf15f784cc757365
+PYTHON_VERSION=3.13.5
+PYTHON_SHA256=93e583f243454e6e9e4588ca2c2662206ad961659863277afcdb96801647d640
 HOME=/root
 TZ=Asia/Singapore
 LANG=en_US.UTF-8
@@ -193,4 +193,4 @@ zstd-libs
 
 ---
 
-last_updated: ('Sun Jun  8 16:23:06 2025', '+08')
+last_updated: ('Sat Jun 14 21:01:55 2025', '+08')
