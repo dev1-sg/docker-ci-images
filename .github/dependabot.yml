@@ -19,6 +19,7 @@ updates:
       - /src/packer
       - /src/python
       - /src/terraform
+      - /src/test
     schedule:
       interval: daily
     commit-message:
