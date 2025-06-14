@@ -96,11 +96,8 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - run: pip install -r requirements.txt
-        working-directory: docs
 
-      - name: Run Python script
-        working-directory: docs
-        run: python3 query-${{ env.DOCKER_IMAGE }}-image.py
+      - run: python3 docs/query-node-image.py
 
       - name: 'commit update'
         env:

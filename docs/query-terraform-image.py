@@ -7,8 +7,8 @@ print(now.strftime("%c"), now.tzname(), locale.getlocale())
 import docker
 from jinja2 import Template
 
-INPUT_TEMPLATE = "../templates/meta.j2"
-OUTPUT_README = "../src/terraform/readme.md"
+INPUT_TEMPLATE = "templates/meta.j2"
+OUTPUT_README = "src/terraform/readme.md"
 IMAGE_URI = "public.ecr.aws/dev1-sg/ci/terraform:latest"
 
 def pull_image(client, image_name):
