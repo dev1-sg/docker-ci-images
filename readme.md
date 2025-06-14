@@ -20,8 +20,9 @@ readme Docs are updated daily. Please check the regsitry gallery for the latest 
 | 7 | [ci/packer](https://gallery.ecr.aws/dev1-sg/ci/packer) | ci | public.ecr.aws/dev1-sg/ci/packer | 1.11.2 | 62.68 MB |
 | 8 | [ci/python](https://gallery.ecr.aws/dev1-sg/ci/python) | ci | public.ecr.aws/dev1-sg/ci/python | 3.13.5 | 63.03 MB |
 | 9 | [ci/terraform](https://gallery.ecr.aws/dev1-sg/ci/terraform) | ci | public.ecr.aws/dev1-sg/ci/terraform | 1.12.0 | 163.00 MB |
-| 10 | [ci/ubuntu](https://gallery.ecr.aws/dev1-sg/ci/ubuntu) | ci | public.ecr.aws/dev1-sg/ci/ubuntu | noble | 94.55 MB |
+| 10 | [ci/test](https://gallery.ecr.aws/dev1-sg/ci/test) | ci | public.ecr.aws/dev1-sg/ci/test | 1.0.0 | 3.94 MB |
+| 11 | [ci/ubuntu](https://gallery.ecr.aws/dev1-sg/ci/ubuntu) | ci | public.ecr.aws/dev1-sg/ci/ubuntu | noble | 94.55 MB |
 
 ---
 
-last_updated: ('Sat Jun 14 16:27:09 2025', '+08')
+last_updated: ('Sat Jun 14 20:58:00 2025', '+08')
