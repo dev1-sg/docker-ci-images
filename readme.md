@@ -12,7 +12,7 @@ readme Docs are updated daily. Please check the regsitry gallery for the latest 
 | # | Repository Name | Group | URI | Latest Tag | Size |
 |---|-----------------|-------|-----|------------|------|
 | 1 | [ci/alpine](https://gallery.ecr.aws/dev1-sg/ci/alpine) | ci | public.ecr.aws/dev1-sg/ci/alpine | 3.21 | 48.24 MB |
-| 2 | [ci/ansible](https://gallery.ecr.aws/dev1-sg/ci/ansible) | ci | public.ecr.aws/dev1-sg/ci/ansible | 3.13.4 | 224.06 MB |
+| 2 | [ci/ansible](https://gallery.ecr.aws/dev1-sg/ci/ansible) | ci | public.ecr.aws/dev1-sg/ci/ansible | 3.13.5 | 224.06 MB |
 | 3 | [ci/debian](https://gallery.ecr.aws/dev1-sg/ci/debian) | ci | public.ecr.aws/dev1-sg/ci/debian | bookworm | 116.03 MB |
 | 4 | [ci/golang](https://gallery.ecr.aws/dev1-sg/ci/golang) | ci | public.ecr.aws/dev1-sg/ci/golang | 1.24.4 | 359.20 MB |
 | 5 | [ci/kubectl](https://gallery.ecr.aws/dev1-sg/ci/kubectl) | ci | public.ecr.aws/dev1-sg/ci/kubectl | 1.32.0 | 97.86 MB |
@@ -25,4 +25,4 @@ readme Docs are updated daily. Please check the regsitry gallery for the latest 
 
 ---
 
-last_updated: ('Sat Jun 14 20:58:00 2025', '+08')
+last_updated: ('Sat Jun 14 21:16:06 2025', '+08')
