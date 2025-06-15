@@ -14,8 +14,8 @@ template_vars = {
     "DOCKER_IMAGE": DOCKER_IMAGE,
 }
 
-TEMPLATES_DIR = Path("templates")
-OUTPUT_DIR = Path("output")
+TEMPLATES_DIR = Path("./templates")
+OUTPUT_DIR = Path("./output")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 def load_template(filename: str) -> Template:
