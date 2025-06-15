@@ -25,4 +25,4 @@ readme Docs are updated daily. Please check the regsitry gallery for the latest 
 
 ---
 
-last_updated: ('Sat Jun 14 21:16:06 2025', '+08')
+last_updated: ('Sun Jun 15 14:54:55 2025', '+08')
