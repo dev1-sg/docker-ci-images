@@ -39,15 +39,15 @@ def generate_docker_bake():
 
 def generate_gh_action_pr():
     output_filename = f"pr-dependabot-{DOCKER_IMAGE}.yml"
-    render_to_file(load_template("gh_action_pr.j2"), OUTPUT_DIR / output_filename, template_vars)
+    render_to_file(load_template("docker_gh_action_pr.j2"), OUTPUT_DIR / output_filename, template_vars)
 
 def generate_gh_action_push():
     output_filename = f"push-{DOCKER_IMAGE}.yml"
-    render_to_file(load_template("gh_action_push.j2"), OUTPUT_DIR / output_filename, template_vars)
+    render_to_file(load_template("docker_gh_action_push.j2"), OUTPUT_DIR / output_filename, template_vars)
 
 def generate_testcontainers():
     output_filename = f"{DOCKER_IMAGE}_test.go"
-    render_to_file(load_template("testcontainer.j2"), OUTPUT_DIR / output_filename, template_vars)
+    render_to_file(load_template("docker_testcontainer.j2"), OUTPUT_DIR / output_filename, template_vars)
 
 def main():
     print("Generating scaffold files...\n")
