@@ -32,15 +32,15 @@ Initial setup:
 ```bash
 git clone https://github.com/dev1-sg/docker-ci-images.git
 chmod +x setup.sh
-./setup.sh
+. ./setup.sh
 ```
 
 Create a new src docker image module:
 
 ```bash
-python3 -m scripts/scaffold.py
+python3 scripts/scaffold.py
 ```
 
 ---
 
-last_updated: ('Sun Jun 15 15:25:51 2025', '+08')
+last_updated: ('Sun Jun 15 15:30:58 2025', '+08')
