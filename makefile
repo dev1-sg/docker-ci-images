@@ -2,6 +2,9 @@ SHELL=/bin/bash
 
 .PHONY: init scaffold
 
+submodule:
+	@git submodule update --init --recursive
+
 init:
 	@python -m venv .venv
 	@source .venv/bin/activate
