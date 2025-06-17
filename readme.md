@@ -16,7 +16,7 @@ readme Docs are updated daily. Please check the regsitry gallery for the latest 
 | 1 | [ci/alpine](https://gallery.ecr.aws/dev1-sg/ci/alpine) | ci | public.ecr.aws/dev1-sg/ci/alpine | 3.21 | 48.24 MB |
 | 2 | [ci/ansible](https://gallery.ecr.aws/dev1-sg/ci/ansible) | ci | public.ecr.aws/dev1-sg/ci/ansible | 3.13.5 | 224.06 MB |
 | 3 | [ci/debian](https://gallery.ecr.aws/dev1-sg/ci/debian) | ci | public.ecr.aws/dev1-sg/ci/debian | bookworm | 116.03 MB |
-| 4 | [ci/golang](https://gallery.ecr.aws/dev1-sg/ci/golang) | ci | public.ecr.aws/dev1-sg/ci/golang | 1.24.4 | 359.20 MB |
+| 4 | [ci/golang](https://gallery.ecr.aws/dev1-sg/ci/golang) | ci | public.ecr.aws/dev1-sg/ci/golang | 1.24.4 | 123.96 MB |
 | 5 | [ci/kubectl](https://gallery.ecr.aws/dev1-sg/ci/kubectl) | ci | public.ecr.aws/dev1-sg/ci/kubectl | 1.32.0 | 97.86 MB |
 | 6 | [ci/node](https://gallery.ecr.aws/dev1-sg/ci/node) | ci | public.ecr.aws/dev1-sg/ci/node | 24.2.0 | 104.95 MB |
 | 7 | [ci/packer](https://gallery.ecr.aws/dev1-sg/ci/packer) | ci | public.ecr.aws/dev1-sg/ci/packer | 1.11.2 | 62.68 MB |
@@ -43,4 +43,4 @@ python3 scripts/scaffold.py
 
 ---
 
-last_updated: ('Sun Jun 15 16:27:38 2025', '+08')
+last_updated: ('Tue Jun 17 16:31:49 2025', '+08')
