@@ -16,7 +16,6 @@ updates:
       - /src/docker
       - /src/readme-update
       - /src/terraform
-      - /src/tests
       - /src/testcontainers-go
     schedule:
       interval: daily
