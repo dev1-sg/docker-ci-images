@@ -1,8 +1,8 @@
 ## Operating System
 
-**Image**: public.ecr.aws/dev1-sg/ci/terraform:latest
+**Image**: public.ecr.aws/dev1-sg/ci/terraform
 
-**os_name**: Alpine Linux
+**os_name**: "Alpine Linux"
 
 **os_version_id**: 3.21.3
 
@@ -12,7 +12,7 @@
 
 ```bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-HOSTNAME=8de1b46fd0f7
+HOSTNAME=1df85e4d8b5d
 TZ=Asia/Singapore
 LANG=en_US.UTF-8
 LANGUAGE=en_US:en
@@ -130,4 +130,4 @@ zstd-libs
 
 ---
 
-last_updated: ('Sat Jun 14 21:12:53 2025', '+08')
+last_updated: Sun Jun 22 14:14:57 2025

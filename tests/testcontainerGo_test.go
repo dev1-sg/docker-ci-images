@@ -9,7 +9,7 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 )
 
-var Terraform = struct {
+var TestcontainerGo = struct {
 	AWS_ECR_PUBLIC_REGION           string
 	AWS_ECR_PUBLIC_URI              string
 	AWS_ECR_PUBLIC_REPOSITORY_GROUP string
@@ -19,26 +19,28 @@ var Terraform = struct {
 	AWS_ECR_PUBLIC_REGION:           "us-east-1",
 	AWS_ECR_PUBLIC_URI:              "public.ecr.aws/dev1-sg",
 	AWS_ECR_PUBLIC_REPOSITORY_GROUP: "ci",
-	AWS_ECR_PUBLIC_IMAGE_NAME:       "terraform",
+	AWS_ECR_PUBLIC_IMAGE_NAME:       "testcontainer-go",
 	AWS_ECR_PUBLIC_IMAGE_TAG:        "latest",
 }
 
-func TestContainersGoPullTerraform(t *testing.T) {
+func TestContainersGoPullTestcontainerGo(t *testing.T) {
 	ctx := context.Background()
-	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
-		ContainerRequest: testcontainers.ContainerRequest{
-			Image: Terraform.AWS_ECR_PUBLIC_URI + "/" + Terraform.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Terraform.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Terraform.AWS_ECR_PUBLIC_IMAGE_TAG,
-		},
-	})
-	require.NoError(t, e)
-	container.Terminate(ctx)
+	for attempt := 0; attempt < 3; attempt++ {
+		container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
+			ContainerRequest: testcontainers.ContainerRequest{
+				Image: TestcontainerGo.AWS_ECR_PUBLIC_URI + "/" + TestcontainerGo.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + TestcontainerGo.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + TestcontainerGo.AWS_ECR_PUBLIC_IMAGE_TAG,
+			},
+		})
+		require.NoError(t, e)
+		container.Terminate(ctx)
+	}
 }
 
-func TestContainersGoExecTerraform(t *testing.T) {
+func TestContainersGoExecTestcontainerGo(t *testing.T) {
 	ctx := context.Background()
 	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
-			Image: Terraform.AWS_ECR_PUBLIC_URI + "/" + Terraform.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Terraform.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Terraform.AWS_ECR_PUBLIC_IMAGE_TAG,
+			Image: TestcontainerGo.AWS_ECR_PUBLIC_URI + "/" + TestcontainerGo.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + TestcontainerGo.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + TestcontainerGo.AWS_ECR_PUBLIC_IMAGE_TAG,
 			Cmd:   []string{"sleep", "10"},
 		},
 		Started: true,
@@ -47,9 +49,8 @@ func TestContainersGoExecTerraform(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"terraform", "--version"},
-		{"terragrunt", "--version"},
-		{"aws", "--version"},
+		{"go", "--version"},
+		{"docker", "--version"},
 	}
 
 	for _, cmd := range commands {

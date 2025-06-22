@@ -1,10 +1,10 @@
 ---
-name: PR Dependabot terraform
+name: PR Dependabot docker
 
 on:
   pull_request:
     paths:
-      - src/terraform/*
+      - src/docker/*
   workflow_dispatch:
 
 permissions:
@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 env:
-  AWS_ECR_PUBLIC_IMAGE_NAME: terraform
+  AWS_ECR_PUBLIC_IMAGE_NAME: docker
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
   TZ: Asia/Singapore
 

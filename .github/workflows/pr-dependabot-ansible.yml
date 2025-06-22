@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 env:
-  DOCKER_IMAGE: ansible
+  AWS_ECR_PUBLIC_IMAGE_NAME: ansible
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
   TZ: Asia/Singapore
 
@@ -23,8 +23,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Set shell options
         run: set -euxo pipefail
@@ -39,7 +37,7 @@ jobs:
         uses: docker/bake-action@v5
         with:
           targets: test
-          workdir: ./src/${{ env.DOCKER_IMAGE }}
+          workdir: ./src/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
 
       - name: Setup Dependabot Metadata
         id: metadata

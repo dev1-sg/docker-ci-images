@@ -1,21 +1,47 @@
+variable "AWS_ECR_PUBLIC_ALIAS" {
+  default = "dev1-sg"
+}
+
+variable "AWS_ECR_PUBLIC_REGION" {
+  default = "us-east-1"
+}
+
 variable "AWS_ECR_PUBLIC_URI" {
   default = "public.ecr.aws/dev1-sg"
 }
 
-variable "DOCKER_IMAGE_GROUP" {
-  default = "ci"
+variable "AWS_ECR_PUBLIC_URL" {
+  default = "https://ecr-public.us-east-1.amazonaws.com"
 }
 
-variable "DOCKER_IMAGE" {
+variable "AWS_ECR_PUBLIC_IMAGE_NAME" {
   default = "ansible"
 }
 
-variable "DOCKER_IMAGE_TAG" {
-  default = "latest"
+variable "AWS_ECR_PUBLIC_IMAGE_TAG" {
+  default = "1.0.0"
+}
+
+variable "AWS_ECR_PUBLIC_IMAGE_URI" {
+  default = "public.ecr.aws/dev1-sg/base/dev:1.0.0"
+}
+
+variable "AWS_ECR_PUBLIC_REPOSITORY_GROUP" {
+  default = "ci"
 }
 
 group "default" {
   targets = ["build"]
+}
+
+target "metadata" {
+  labels = {
+    "org.opencontainers.image.title"       = "${AWS_ECR_PUBLIC_IMAGE_NAME}"
+    "org.opencontainers.image.description" = "Minimal Alpine base image for internal use"
+    "org.opencontainers.image.url"         = "https://gitlab.com/dev1-sg/public/docker-${AWS_ECR_PUBLIC_REPOSITORY_GROUP}-images/-/tree/main/src/${AWS_ECR_PUBLIC_IMAGE_NAME}"
+    "org.opencontainers.image.source"      = "https://gitlab.com/dev1-sg/public/docker-${AWS_ECR_PUBLIC_REPOSITORY_GROUP}-images"
+    "org.opencontainers.image.version"     = "${AWS_ECR_PUBLIC_IMAGE_TAG}"
+  }
 }
 
 target "settings" {
@@ -29,35 +55,29 @@ target "settings" {
 }
 
 target "test" {
-  inherits = ["settings"]
+  inherits = ["settings", "metadata"]
   dockerfile = "Dockerfile"
-  platforms = [
-    "linux/amd64",
-    "linux/arm64",
-  ]
+  platforms = ["linux/amd64", "linux/arm64"]
   tags = []
 }
 
 target "build" {
-  inherits = ["settings"]
+  inherits = ["settings", "metadata"]
   dockerfile = "Dockerfile"
-  output   = ["type=docker"]
+  output     = ["type=docker"]
   tags = [
-    "${AWS_ECR_PUBLIC_URI}/${DOCKER_IMAGE_GROUP}/${DOCKER_IMAGE}:latest",
-    "${AWS_ECR_PUBLIC_URI}/${DOCKER_IMAGE_GROUP}/${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}",
   ]
 }
 
 target "push" {
-  inherits = ["settings"]
+  inherits = ["settings", "metadata"]
   dockerfile = "Dockerfile"
-  output   = ["type=registry"]
-  platforms = [
-    "linux/amd64",
-    "linux/arm64",
-  ]
+  output     = ["type=registry"]
+  platforms  = ["linux/amd64", "linux/arm64"]
   tags = [
-    "${AWS_ECR_PUBLIC_URI}/${DOCKER_IMAGE_GROUP}/${DOCKER_IMAGE}:latest",
-    "${AWS_ECR_PUBLIC_URI}/${DOCKER_IMAGE_GROUP}/${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}",
   ]
 }

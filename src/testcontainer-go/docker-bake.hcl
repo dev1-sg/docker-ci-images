@@ -47,10 +47,10 @@ target "metadata" {
 target "settings" {
   context = "."
   cache-from = [
-    "type=local,src=/tmp/.buildx-cache"
+    "type=gha"
   ]
   cache-to = [
-    "type=local,dest=/tmp/.buildx-cache,mode=max"
+    "type=gha,mode=max"
   ]
 }
 

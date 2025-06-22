@@ -1,12 +1,12 @@
 ---
-name: Push terraform
+name: Push readme-update
 
 on:
   push:
     branches:
       - main
     paths:
-      - src/terraform/*
+      - src/readme-update/*
   workflow_dispatch:
 
 permissions:
@@ -16,8 +16,8 @@ permissions:
 env:
   AWS_DEFAULT_REGION: us-east-1
   AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
-  AWS_ECR_PUBLIC_REPOSITORY_GROUP: ci
-  AWS_ECR_PUBLIC_IMAGE_NAME: terraform
+  AWS_ECR_PUBLIC_REPOSITORY_GROUP: base
+  AWS_ECR_PUBLIC_IMAGE_NAME: readme-update
   TZ: Asia/Singapore
 
 jobs:
@@ -52,7 +52,7 @@ jobs:
       - name: Extract Version from Dockerfile
         id: extract_version
         run: |
-          AWS_ECR_PUBLIC_IMAGE_TAG=$(sed -n 's/^ARG TERRAFORM_VERSION=\(.*\)/\1/p' ./src/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}/Dockerfile)
+          AWS_ECR_PUBLIC_IMAGE_TAG=$(cat ./src/${{env.AWS_ECR_PUBLIC_IMAGE_NAME}}/version)
           echo "AWS_ECR_PUBLIC_IMAGE_TAG=${AWS_ECR_PUBLIC_IMAGE_TAG#v}" >> $GITHUB_ENV
           echo "AWS_ECR_PUBLIC_IMAGE_TAG=${AWS_ECR_PUBLIC_IMAGE_TAG#v}"
 

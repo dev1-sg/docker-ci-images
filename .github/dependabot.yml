@@ -11,15 +11,13 @@ registries:
 updates:
   - package-ecosystem: docker
     directories:
-      - /src/alpine
       - /src/ansible
-      - /src/golang
-      - /src/kubectl
-      - /src/node
-      - /src/packer
-      - /src/python
+      - /src/dev
+      - /src/docker
+      - /src/readme-update
       - /src/terraform
-      - /src/test
+      - /src/tests
+      - /src/testcontainers-go
     schedule:
       interval: daily
     commit-message:

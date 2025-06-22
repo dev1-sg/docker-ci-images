@@ -16,8 +16,8 @@ permissions:
 env:
   AWS_DEFAULT_REGION: us-east-1
   AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
-  DOCKER_IMAGE_GROUP: ci
-  DOCKER_IMAGE: ansible
+  AWS_ECR_PUBLIC_REPOSITORY_GROUP: ci
+  AWS_ECR_PUBLIC_IMAGE_NAME: ansible
   TZ: Asia/Singapore
 
 jobs:
@@ -26,8 +26,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Set shell options
         run: set -euxo pipefail
@@ -54,19 +52,19 @@ jobs:
       - name: Extract Version from Dockerfile
         id: extract_version
         run: |
-          DOCKER_IMAGE_TAG=$(sed -n 's/^FROM .*:\([^ -]*\).*/\1/p' ./src/${{ env.DOCKER_IMAGE }}/Dockerfile)
-          echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}" >> $GITHUB_ENV
-          echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG#v}"
+          AWS_ECR_PUBLIC_IMAGE_TAG=$(sed -n 's/^ARG ANSIBLE_VERSION=\(.*\)/\1/p' ./src/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}/Dockerfile)
+          echo "AWS_ECR_PUBLIC_IMAGE_TAG=${AWS_ECR_PUBLIC_IMAGE_TAG#v}" >> $GITHUB_ENV
+          echo "AWS_ECR_PUBLIC_IMAGE_TAG=${AWS_ECR_PUBLIC_IMAGE_TAG#v}"
 
       - name: Create AWS ECR Public Repository
         run: |
-          aws ecr-public create-repository --repository-name ${{ env.DOCKER_IMAGE_GROUP }}/${{ env.DOCKER_IMAGE }} --region ${{ env.AWS_DEFAULT_REGION }} || true
+          aws ecr-public create-repository --repository-name ${{ env.AWS_ECR_PUBLIC_REPOSITORY_GROUP }}/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }} --region ${{ env.AWS_DEFAULT_REGION }} || true
 
       - name: Docker build & push
         uses: docker/bake-action@v5
         with:
           targets: push
-          workdir: ./src/${{ env.DOCKER_IMAGE }}
+          workdir: ./src/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
 
   run-push:
     runs-on: ubuntu-latest
@@ -74,8 +72,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Set shell options
         run: set -euxo pipefail
@@ -84,7 +80,7 @@ jobs:
         with:
           python-version: '3.12'
           cache: 'pip'
-          cache-dependency-path: ./docs/requirements.txt
+          cache-dependency-path: requirements.txt
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -99,7 +95,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python3 ./docs/query-alpine-image.py
+      - run: python3 scripts/run_image_readme.py ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
 
       - name: 'commit update'
         env:
@@ -111,7 +107,7 @@ jobs:
           git config pull.rebase false
           git checkout main
           git pull origin main
-          git add ./src/${{ env.DOCKER_IMAGE }}/readme.md
+          git add ./src/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}/readme.md
           git commit -m 'Automated documentation update [skip ci]' || echo "No changes to commit"
 
           if ! git push origin main; then

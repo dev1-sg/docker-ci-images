@@ -10,35 +10,37 @@ import (
 )
 
 var Ansible = struct {
-	AWS_DEFAULT_REGION string
-	AWS_ECR_PUBLIC_URI string
-	DOCKER_IMAGE_GROUP string
-	DOCKER_IMAGE       string
-	DOCKER_IMAGE_TAG   string
+	AWS_ECR_PUBLIC_REGION           string
+	AWS_ECR_PUBLIC_URI              string
+	AWS_ECR_PUBLIC_REPOSITORY_GROUP string
+	AWS_ECR_PUBLIC_IMAGE_NAME       string
+	AWS_ECR_PUBLIC_IMAGE_TAG        string
 }{
-	AWS_DEFAULT_REGION: "us-east-1",
-	AWS_ECR_PUBLIC_URI: "public.ecr.aws/dev1-sg",
-	DOCKER_IMAGE_GROUP: "ci",
-	DOCKER_IMAGE:       "ansible",
-	DOCKER_IMAGE_TAG:   "latest",
+	AWS_ECR_PUBLIC_REGION:           "us-east-1",
+	AWS_ECR_PUBLIC_URI:              "public.ecr.aws/dev1-sg",
+	AWS_ECR_PUBLIC_REPOSITORY_GROUP: "ci",
+	AWS_ECR_PUBLIC_IMAGE_NAME:       "ansible",
+	AWS_ECR_PUBLIC_IMAGE_TAG:        "latest",
 }
 
 func TestContainersGoPullAnsible(t *testing.T) {
 	ctx := context.Background()
-	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
-		ContainerRequest: testcontainers.ContainerRequest{
-			Image: Ansible.AWS_ECR_PUBLIC_URI + "/" + Ansible.DOCKER_IMAGE_GROUP + "/" + Ansible.DOCKER_IMAGE + ":" + Ansible.DOCKER_IMAGE_TAG,
-		},
-	})
-	require.NoError(t, e)
-	container.Terminate(ctx)
+	for attempt := 0; attempt < 3; attempt++ {
+		container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
+			ContainerRequest: testcontainers.ContainerRequest{
+				Image: Ansible.AWS_ECR_PUBLIC_URI + "/" + Ansible.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Ansible.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Ansible.AWS_ECR_PUBLIC_IMAGE_TAG,
+			},
+		})
+		require.NoError(t, e)
+		container.Terminate(ctx)
+	}
 }
 
 func TestContainersGoExecAnsible(t *testing.T) {
 	ctx := context.Background()
 	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
-			Image: Ansible.AWS_ECR_PUBLIC_URI + "/" + Ansible.DOCKER_IMAGE_GROUP + "/" + Ansible.DOCKER_IMAGE + ":" + Ansible.DOCKER_IMAGE_TAG,
+			Image: Ansible.AWS_ECR_PUBLIC_URI + "/" + Ansible.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Ansible.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Ansible.AWS_ECR_PUBLIC_IMAGE_TAG,
 			Cmd:   []string{"sleep", "10"},
 		},
 		Started: true,
@@ -46,12 +48,22 @@ func TestContainersGoExecAnsible(t *testing.T) {
 	require.NoError(t, e)
 	defer container.Terminate(ctx)
 
-	exitCode, reader, e := container.Exec(ctx, []string{"ansible", "--version"})
-	require.NoError(t, e)
-	require.Equal(t, 0, exitCode)
+	commands := [][]string{
+		{"python", "--version"},
+		{"ansible", "--version"},
+		{"aws", "--version"},
+		{"session-manager-plugin", "--version"},
+	}
 
-	output, e := io.ReadAll(reader)
-	require.NoError(t, e)
+	for _, cmd := range commands {
+		exitCode, reader, e := container.Exec(ctx, cmd)
+		require.NoError(t, e)
+		require.Equal(t, 0, exitCode)
 
-	require.Contains(t, string(output), "ansible", "Expected output not found")
+		output, e := io.ReadAll(reader)
+		require.NoError(t, e)
+
+		t.Logf("Command: %v\nOutput: %s\n", cmd, output)
+		require.NotEmpty(t, output)
+	}
 }
