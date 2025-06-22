@@ -9,11 +9,11 @@ This repository contains Dockerfiles for building Docker images.
 |---|---|---|---|---|---
 | 1 | [ci/ansible](https://gallery.ecr.aws/dev1-sg/ci/ansible) | ci | public.ecr.aws/dev1-sg/ci/ansible | 1.0.0 | 214.72
 | 2 | [ci/dev](https://gallery.ecr.aws/dev1-sg/ci/dev) | ci | public.ecr.aws/dev1-sg/ci/dev | 1.0.0 | 3.81
-| 3 | [ci/docker](https://gallery.ecr.aws/dev1-sg/ci/docker) | ci | public.ecr.aws/dev1-sg/ci/docker | 28.2.2-cli | 109.06
+| 3 | [ci/docker](https://gallery.ecr.aws/dev1-sg/ci/docker) | ci | public.ecr.aws/dev1-sg/ci/docker | 28.2.2 | 109.06
 | 4 | [ci/readme-update](https://gallery.ecr.aws/dev1-sg/ci/readme-update) | ci | public.ecr.aws/dev1-sg/ci/readme-update | 1.0.0 | 189.91
-| 5 | [ci/terraform](https://gallery.ecr.aws/dev1-sg/ci/terraform) | ci | public.ecr.aws/dev1-sg/ci/terraform | 1.12.0 | 163.00
+| 5 | [ci/terraform](https://gallery.ecr.aws/dev1-sg/ci/terraform) | ci | public.ecr.aws/dev1-sg/ci/terraform | 1.12.0 | 163.66
 | 6 | [ci/testcontainer-go](https://gallery.ecr.aws/dev1-sg/ci/testcontainer-go) | ci | public.ecr.aws/dev1-sg/ci/testcontainer-go | 1.23.6 | 179.68
 
 ---
 
-last_updated: Sun Jun 22 14:19:09 2025 +08
+last_updated: Sun Jun 22 14:25:07 2025 +08
