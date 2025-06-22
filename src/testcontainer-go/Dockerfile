@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM docker.io/golang:1.23.6-alpine3.21 AS golang
+FROM docker.io/golang:1.24.4-alpine3.21 AS golang
 FROM docker.io/docker:28.2.2-cli-alpine3.21 AS base
 
 USER root
