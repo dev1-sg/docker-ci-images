@@ -1,10 +1,10 @@
 ## Operating System
 
-**Image**: public.ecr.aws/dev1-sg/ci/terraform
+**Image**: public.ecr.aws/dev1-sg/ci/terraform:latest
 
-**os_name**: "Alpine Linux"
+**os_name**: Alpine Linux
 
-**os_version_id**: 3.21.3
+**os_version_id**: 3.22.0
 
 **os_id**: alpine
 
@@ -12,7 +12,7 @@
 
 ```bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-HOSTNAME=1df85e4d8b5d
+HOSTNAME=67cf4a431037
 TZ=Asia/Singapore
 LANG=en_US.UTF-8
 LANGUAGE=en_US:en
@@ -61,6 +61,7 @@ gdbm
 git
 git-init-template
 jq
+libapk2
 libbz2
 libcrypto3
 libcurl
@@ -112,6 +113,8 @@ py3-urllib3
 py3-urllib3-pyc
 py3-wcwidth
 py3-wcwidth-pyc
+py3-zipp
+py3-zipp-pyc
 pyc
 python3
 python3-pyc
@@ -130,4 +133,4 @@ zstd-libs
 
 ---
 
-last_updated: Sun Jun 22 14:14:57 2025
+last_updated: ('Sun Jun 22 14:24:29 2025', '+08')
