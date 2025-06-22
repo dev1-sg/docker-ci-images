@@ -1,8 +1,8 @@
 ## Operating System
 
-**Image**: public.ecr.aws/dev1-sg/ci/readme-update
+**Image**: public.ecr.aws/dev1-sg/ci/readme-update:latest
 
-**os_name**: "Alpine Linux"
+**os_name**: Alpine Linux
 
 **os_version_id**: 3.21.3
 
@@ -12,7 +12,7 @@
 
 ```bash
 LANGUAGE=en_US:en
-HOSTNAME=e7fc80348783
+HOSTNAME=80f88342f329
 SHLVL=1
 HOME=/root
 PATH=/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -157,4 +157,4 @@ zstd-libs
 
 ---
 
-last_updated: Sun Jun 22 14:14:57 2025
+last_updated: ('Sun Jun 22 14:21:13 2025', '+08')
