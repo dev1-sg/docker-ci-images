@@ -1,8 +1,8 @@
 ## Operating System
 
-**Image**: public.ecr.aws/dev1-sg/ci/ansible
+**Image**: public.ecr.aws/dev1-sg/ci/ansible:latest
 
-**os_name**: "Alpine Linux"
+**os_name**: Alpine Linux
 
 **os_version_id**: 3.21.3
 
@@ -12,7 +12,7 @@
 
 ```bash
 PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-HOSTNAME=48607c71119a
+HOSTNAME=4354cdfe2331
 GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305
 PYTHON_VERSION=3.13.5
 PYTHON_SHA256=93e583f243454e6e9e4588ca2c2662206ad961659863277afcdb96801647d640
@@ -26,6 +26,17 @@ HOME=/root
 ## Local Packages
 
 ```bash
+ansible
+ansible-community
+ansible-config
+ansible-console
+ansible-doc
+ansible-galaxy
+ansible-inventory
+ansible-playbook
+ansible-pull
+ansible-test
+ansible-vault
 idle
 idle3
 idle3.13
@@ -53,10 +64,6 @@ alpine-baselayout
 alpine-baselayout-data
 alpine-keys
 alpine-release
-ansible
-ansible-core
-ansible-core-pyc
-ansible-pyc
 apk-tools
 aws-c-auth
 aws-c-cal
@@ -120,8 +127,6 @@ openssh-sftp-server
 pcre2
 py3-awscrt
 py3-awscrt-pyc
-py3-bcrypt
-py3-bcrypt-pyc
 py3-certifi
 py3-certifi-pyc
 py3-cffi
@@ -138,24 +143,10 @@ py3-distro
 py3-distro-pyc
 py3-docutils
 py3-docutils-pyc
-py3-jinja2
-py3-jinja2-pyc
 py3-jmespath
 py3-jmespath-pyc
-py3-markupsafe
-py3-markupsafe-pyc
-py3-packaging
-py3-packaging-pyc
-py3-paramiko
-py3-paramiko-pyc
-py3-parsing
-py3-parsing-pyc
 py3-prompt_toolkit
 py3-prompt_toolkit-pyc
-py3-pynacl
-py3-pynacl-pyc
-py3-resolvelib
-py3-resolvelib-pyc
 py3-ruamel.yaml
 py3-ruamel.yaml-pyc
 py3-ruamel.yaml.clib
@@ -165,8 +156,6 @@ py3-urllib3
 py3-urllib3-pyc
 py3-wcwidth
 py3-wcwidth-pyc
-py3-yaml
-py3-yaml-pyc
 pyc
 python3
 python3-pyc
@@ -182,7 +171,6 @@ tar
 tzdata
 xz
 xz-libs
-yaml
 zlib
 zstd-libs
 ```
@@ -190,4 +178,4 @@ zstd-libs
 
 ---
 
-last_updated: Sun Jun 22 14:14:57 2025
+last_updated: ('Sun Jun 22 14:27:54 2025', '+08')
