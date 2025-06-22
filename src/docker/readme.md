@@ -1,8 +1,8 @@
 ## Operating System
 
-**Image**: public.ecr.aws/dev1-sg/ci/docker
+**Image**: public.ecr.aws/dev1-sg/ci/docker:latest
 
-**os_name**: "Alpine Linux"
+**os_name**: Alpine Linux
 
 **os_version_id**: 3.21.3
 
@@ -12,7 +12,7 @@
 
 ```bash
 LANGUAGE=en_US:en
-HOSTNAME=6b0e82d87d76
+HOSTNAME=3678298eccd5
 SHLVL=1
 HOME=/root
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -142,4 +142,4 @@ zstd-libs
 
 ---
 
-last_updated: Sun Jun 22 14:14:57 2025
+last_updated: ('Sun Jun 22 14:20:43 2025', '+08')
