@@ -1,5 +1,5 @@
 {
-  "image": "public.ecr.aws/dev1-sg/devcontainer/dev-base:latest",
+  "image": "public.ecr.aws/dev1-sg/devcontainer/ubuntu-base:latest",
   "name": "docker-ci-images",
   "features": {
       "ghcr.io/dev1-sg/devcontainers/common-utils:1": {},
@@ -10,7 +10,7 @@
   "customizations": {
     "vscode": {
       "settings": {"terminal.integrated.defaultProfile.linux": "zsh"},
-    "extensions": ["ms-vscode-remote.remote-containers", "golang.Go", "ms-python.python"]
+    "extensions": ["ms-vscode-remote.remote-containers"]
     }
   },
   "containerUser": "vscode",
