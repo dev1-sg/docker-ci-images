@@ -72,6 +72,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Set shell options
         run: set -euxo pipefail
@@ -88,10 +90,6 @@ jobs:
           role-to-assume: ${{ env.AWS_OIDC_ROLE_ARN }}
           role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
-
-      - name: Login to AWS ECR Public Registry
-        id: login-ecr-public
-        uses: aws-actions/amazon-ecr-login@v2
 
       - run: pip install -r requirements.txt
 
