@@ -1,0 +1,45 @@
+---
+name: Setup build platform
+description: Setup build platform
+
+inputs:
+  AWS_OIDC_ROLE_ARN:
+    description: AWS oidc role arn
+    required: true
+  AWS_ECR_PUBLIC_IMAGE_NAME:
+    description: Image name
+    required: true
+  AWS_ECR_PUBLIC_REPOSITORY_GROUP:
+    description: Repository group name
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Set shell options
+      shell: bash
+      run: set -euxo pipefail
+
+    - name: Setup qemu
+      uses: docker/setup-qemu-action@v3
+
+    - name: Setup docker buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ inputs.AWS_OIDC_ROLE_ARN }}
+        role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
+        aws-region: us-east-1
+
+    - name: Login to AWS ECR Public Registry
+      id: login-ecr-public
+      uses: aws-actions/amazon-ecr-login@v2
+      with:
+        registry-type: public
+
+    - name: Create AWS ECR Public Repository
+      shell: bash
+      run: |
+        aws ecr-public create-repository --repository-name ${{ env.AWS_ECR_PUBLIC_REPOSITORY_GROUP }}/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }} --region us-east-1 || true

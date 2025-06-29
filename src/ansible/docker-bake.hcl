@@ -23,7 +23,7 @@ variable "AWS_ECR_PUBLIC_IMAGE_TAG" {
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_URI" {
-  default = "public.ecr.aws/dev1-sg/ci/dev:1.0.0"
+  default = "public.ecr.aws/dev1-sg/ci/ansible:1.0.0"
 }
 
 variable "AWS_ECR_PUBLIC_REPOSITORY_GROUP" {
@@ -37,7 +37,7 @@ group "default" {
 target "metadata" {
   labels = {
     "org.opencontainers.image.title"       = "${AWS_ECR_PUBLIC_IMAGE_NAME}"
-    "org.opencontainers.image.description" = "Minimal Alpine base image for internal use"
+    "org.opencontainers.image.description" = "Minimal ${AWS_ECR_PUBLIC_IMAGE_NAME} ${AWS_ECR_PUBLIC_REPOSITORY_GROUP} image for internal use"
     "org.opencontainers.image.url"         = "https://gitlab.com/dev1-sg/public/docker-${AWS_ECR_PUBLIC_REPOSITORY_GROUP}-images/-/tree/main/src/${AWS_ECR_PUBLIC_IMAGE_NAME}"
     "org.opencontainers.image.source"      = "https://gitlab.com/dev1-sg/public/docker-${AWS_ECR_PUBLIC_REPOSITORY_GROUP}-images"
     "org.opencontainers.image.version"     = "${AWS_ECR_PUBLIC_IMAGE_TAG}"

@@ -1,0 +1,106 @@
+---
+name: Push ansible
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - src/ansible/*
+  pull_request:
+    paths:
+      - src/ansible/*
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: write
+
+env:
+  AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+  AWS_ECR_PUBLIC_IMAGE_NAME: ansible
+  AWS_ECR_PUBLIC_REPOSITORY_GROUP: ci
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TZ: Asia/Singapore
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Setup build
+      uses: ./.github/actions/setup-build
+      with:
+        AWS_OIDC_ROLE_ARN: ${{ env.AWS_OIDC_ROLE_ARN }}
+        AWS_ECR_PUBLIC_IMAGE_NAME: ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
+        AWS_ECR_PUBLIC_REPOSITORY_GROUP: ${{ env.AWS_ECR_PUBLIC_REPOSITORY_GROUP }}
+
+    - name: Extract Version from Dockerfile
+      uses: ./.github/actions/apply-tags
+      with:
+        AWS_ECR_PUBLIC_IMAGE_NAME: ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
+        AWS_ECR_PUBLIC_IMAGE_TAG_SCRIPT: tags.sh
+
+    - name: Docker build & push
+      uses: docker/bake-action@v5
+      with:
+        targets: push
+        workdir: ./src/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
+
+  run-push:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: build-push
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup python
+        uses: ./.github/actions/setup-python
+        with:
+          AWS_OIDC_ROLE_ARN: ${{ env.AWS_OIDC_ROLE_ARN }}
+
+      - run: python3 scripts/run_image_readme.py ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
+
+      - name: Git commit
+        uses: ./.github/actions/git-commit
+        with:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+
+  dependabot-pr:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set shell options
+        run: set -euxo pipefail
+
+      - name: Setup qemu
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Run docker buildx test
+        uses: docker/bake-action@v5
+        with:
+          targets: test
+          workdir: ./src/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
+
+      - name: Setup Dependabot Metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{env.GITHUB_TOKEN}}
+
+      - name: Auto-merge for Dependabot PR
+        run: gh pr merge --auto --rebase ${{ github.event.pull_request.number }}
+        env:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}

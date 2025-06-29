@@ -219,9 +219,6 @@ cython_debug/
 go.work
 go.work.sum
 
-# env file
-# .env
-
 # bin
 bin/*
 !bin/.gitkeep

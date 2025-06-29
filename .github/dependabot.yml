@@ -14,7 +14,6 @@ updates:
       - /src/ansible
       - /src/dev
       - /src/docker
-      - /src/readme-update
       - /src/terraform
     schedule:
       interval: daily
