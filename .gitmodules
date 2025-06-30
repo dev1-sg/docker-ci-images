@@ -1,6 +1,3 @@
-[submodule "templates"]
-	path = templates
-	url = https://github.com/dev1-sg/templates.git
 [submodule "scripts"]
 	path = scripts
 	url = https://github.com/dev1-sg/scripts.git
