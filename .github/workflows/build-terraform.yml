@@ -65,7 +65,7 @@ jobs:
         with:
           AWS_OIDC_ROLE_ARN: ${{ env.AWS_OIDC_ROLE_ARN }}
 
-      - run: python3 scripts/run_image_readme.py ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
+      - run: python3 scripts/docs_ecr_image_inspect_.py ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
 
       - name: Git commit
         uses: ./.github/actions/git-commit
