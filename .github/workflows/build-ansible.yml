@@ -50,28 +50,6 @@ jobs:
         targets: push
         workdir: ./src/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
 
-  run-push:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    needs: build-push
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Setup python
-        uses: ./.github/actions/setup-python
-        with:
-          AWS_OIDC_ROLE_ARN: ${{ env.AWS_OIDC_ROLE_ARN }}
-
-      - run: python3 scripts/docs_ecr_image_inspect_.py ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
-
-      - name: Git commit
-        uses: ./.github/actions/git-commit
-        with:
-          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
-
   dependabot-pr:
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]'
