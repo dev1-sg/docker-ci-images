@@ -12,6 +12,7 @@ updates:
   - package-ecosystem: docker
     directories:
       - /src/ansible
+      - /src/aws-cdk
       - /src/dev
       - /src/docker
       - /src/terraform
