@@ -19,11 +19,11 @@ variable "AWS_ECR_PUBLIC_IMAGE_NAME" {
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_TAG" {
-  default = "1.0.0"
+  default = "dev"
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_URI" {
-  default = "public.ecr.aws/dev1-sg/ci/terraform:1.0.0"
+  default = "public.ecr.aws/dev1-sg/ci/terraform:latest"
 }
 
 variable "AWS_ECR_PUBLIC_REPOSITORY_GROUP" {
