@@ -4,7 +4,7 @@ FROM docker.io/node:24.3.0-alpine3.21 AS node
 FROM docker.io/python:3.13.5-alpine3.21 AS python
 FROM docker.io/docker:28.2.2-dind-alpine3.21 AS base
 
-ARG AWSCDK_VERSION=2.1020.0
+ARG AWSCDK_VERSION=2.1020.2
 
 USER root
 
