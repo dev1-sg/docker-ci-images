@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM public.ecr.aws/dev1-sg/base/python:3.13.5 AS base
+FROM public.ecr.aws/dev1-sg/alpine/python:3.13.5 AS base
 
 ARG ANSIBLE_VERSION=11.7.0
 
