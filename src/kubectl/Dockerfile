@@ -4,9 +4,9 @@ FROM public.ecr.aws/dev1-sg/base/alpine:3.22 AS base
 
 FROM base AS build
 
-ARG KUBECTL_VERSION=1.17.5
-ARG HELM_VERSION=3.2.1
-ARG KUSTOMIZE_VERSION=v3.8.1
+ARG KUBECTL_VERSION=1.33.1
+ARG HELM_VERSION=3.18.4
+ARG KUSTOMIZE_VERSION=5.7.0
 
 RUN apk add --no-cache unzip tar
 
@@ -19,7 +19,7 @@ RUN curl -fsSL "https://get.helm.sh/helm-v${HELM_VERSION}-linux-$(case $(uname -
     && cp /tmp/helm /usr/local/bin/helm \
     && chmod +x /usr/local/bin/helm
 
-RUN curl -fsSL "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_$(case $(uname -m) in x86_64) echo amd64 ;; aarch64) echo arm64 ;; esac).tar.gz" -o /tmp/kustomize.tar.gz \
+RUN curl -fsSL "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_linux_$(case $(uname -m) in x86_64) echo amd64 ;; aarch64) echo arm64 ;; esac).tar.gz" -o /tmp/kustomize.tar.gz \
     && tar -xvf /tmp/kustomize.tar.gz -C /tmp \
     && cp /tmp/kustomize /usr/local/bin/kustomize \
     && chmod +x /usr/local/bin/kustomize
