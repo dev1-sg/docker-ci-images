@@ -15,6 +15,7 @@ updates:
       - /src/aws-cdk
       - /src/dev
       - /src/docker
+      - /src/kubectl
       - /src/terraform
     schedule:
       interval: daily
