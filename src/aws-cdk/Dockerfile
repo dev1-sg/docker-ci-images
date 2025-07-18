@@ -14,7 +14,7 @@ ENV TZ=Asia/Singapore \
     LC_ALL=en_US.UTF-8
 
 RUN apk add --no-cache \
-    bash git aws-cli curl ca-certificates jq docker \
+    bash git aws-cli curl ca-certificates jq \
     && rm -rf /var/cache/apk/* \
     && ln -s /var/cache/apk /etc/apk/cache
 

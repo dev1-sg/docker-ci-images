@@ -9,8 +9,7 @@
   },
   "customizations": {
     "vscode": {
-      "settings": {"terminal.integrated.defaultProfile.linux": "zsh"},
-    "extensions": ["ms-vscode-remote.remote-containers", "golang.Go", "ms-python.python"]
+      "settings": {"terminal.integrated.defaultProfile.linux": "zsh"}
     }
   },
   "containerUser": "vscode",
