@@ -15,7 +15,7 @@ RUN curl -fsSL "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/$(case $
     && chmod +x /usr/local/bin/kubectl
 
 RUN curl -fsSL "https://get.helm.sh/helm-v${HELM_VERSION}-linux-$(case $(uname -m) in x86_64) echo amd64 ;; aarch64) echo arm64 ;; esac).tar.gz" -o /tmp/helm.tar.gz \
-    && tar -xf /tmp/helm.tar.gz -C /tmp --strip-components=1 linux-amd64/helm \
+    && tar -xf /tmp/helm.tar.gz -C /tmp --strip-components=1 "linux-$(case $(uname -m) in x86_64) echo amd64 ;; aarch64) echo arm64 ;; esac)/helm" \
     && cp /tmp/helm /usr/local/bin/helm \
     && chmod +x /usr/local/bin/helm
 
