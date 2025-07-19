@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-sed -n 's/^ARG AWSCDK_VERSION=\(.*\)/\1/p' Dockerfile | head -1
+aws_cdk=($(sed -n 's/^ARG AWSCDK_VERSION=\(.*\)/\1/p' Dockerfile | head -1))
+
+echo "${aws_cdk:-dev}"

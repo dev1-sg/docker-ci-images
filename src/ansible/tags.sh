@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-sed -n 's/^ARG ANSIBLE_VERSION=\(.*\)/\1/p' Dockerfile | head -1
+ansible=($(sed -n 's/^ARG ANSIBLE_VERSION=\(.*\)/\1/p' Dockerfile | head -1))
+
+echo "${ansible:-dev}"

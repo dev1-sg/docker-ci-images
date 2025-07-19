@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-cat version | head -1
+version=($(cat version | head -1))
+
+echo "${version:-dev}"
