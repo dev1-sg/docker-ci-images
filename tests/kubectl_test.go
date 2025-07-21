@@ -50,7 +50,7 @@ func TestContainersGoExecKubectl(t *testing.T) {
 
 	commands := [][]string{
 		{"aws", "--version"},
-		{"kubectl", "version"},
+		{"kubectl", "version", "--client"},
 		{"helm", "version"},
 		{"kustomize", "version"},
 	}
