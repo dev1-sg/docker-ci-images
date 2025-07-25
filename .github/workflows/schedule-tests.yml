@@ -7,6 +7,13 @@ on:
       - main
     paths:
       - tests/*
+      - go.mod
+      - go.sum
+  pull_request:
+    paths:
+      - tests/*
+      - go.mod
+      - go.sum
   workflow_dispatch:
   schedule:
     - cron: '0 8 * * *'
@@ -18,11 +25,13 @@ permissions:
 env:
   AWS_DEFAULT_REGION: us-east-1
   AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TZ: Asia/Singapore
 
 jobs:
   schedule-testcontainers:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -53,3 +62,42 @@ jobs:
       - name: Run go tests
         run: |
           go test -run 'TestContainersGo.*' ./... -v
+
+  dependabot-pr:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set shell options
+        run: set -euxo pipefail
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_OIDC_ROLE_ARN }}
+          role-session-name: aws-oidc-${{ github.repository.name }}-${{ github.run_id }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      - name: Login to Amazon ECR Public
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
+
+      - name: Setup go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ./go.mod
+          cache-dependency-path: ./go.sum
+      - run: go version
+
+      - name: Run go tests
+        run: |
+          go test -run 'TestContainersGo.*' ./... -v
+
+      - name: Auto-merge for Dependabot PR
+        run: gh pr merge --auto --rebase ${{ github.event.pull_request.number }}
+        env:
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}

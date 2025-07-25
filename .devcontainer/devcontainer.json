@@ -1,6 +1,6 @@
 {
   "image": "public.ecr.aws/dev1-sg/devcontainer/ubuntu-base:latest",
-  "name": "docker-ci-images",
+  "name": "dev1-sg-docker-ci-images",
   "features": {
       "ghcr.io/dev1-sg/devcontainers/common-utils:1": {},
       "ghcr.io/dev1-sg/devcontainers/docker-in-docker:latest": {},
@@ -13,6 +13,6 @@
     }
   },
   "containerUser": "vscode",
-  "workspaceMount": "source=${localWorkspaceFolder}/,target=/home/vscode/docker-ci-images,type=bind,consistency=cached", "workspaceFolder": "/home/vscode",
+  "workspaceMount": "source=${localWorkspaceFolder}/,target=/home/vscode/dev1-sg-docker-ci-images,type=bind,consistency=cached", "workspaceFolder": "/home/vscode",
   "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode"
 }

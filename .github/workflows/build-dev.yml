@@ -28,27 +28,27 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Setup build
-      uses: ./.github/actions/setup-build
-      with:
-        AWS_OIDC_ROLE_ARN: ${{ env.AWS_OIDC_ROLE_ARN }}
-        AWS_ECR_PUBLIC_IMAGE_NAME: ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
-        AWS_ECR_PUBLIC_REPOSITORY_GROUP: ${{ env.AWS_ECR_PUBLIC_REPOSITORY_GROUP }}
+      - name: Setup build
+        uses: ./.github/actions/setup-build
+        with:
+          AWS_OIDC_ROLE_ARN: ${{ env.AWS_OIDC_ROLE_ARN }}
+          AWS_ECR_PUBLIC_IMAGE_NAME: ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
+          AWS_ECR_PUBLIC_REPOSITORY_GROUP: ${{ env.AWS_ECR_PUBLIC_REPOSITORY_GROUP }}
 
-    - name: Extract Version from Dockerfile
-      uses: ./.github/actions/apply-tags
-      with:
-        AWS_ECR_PUBLIC_IMAGE_NAME: ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
-        AWS_ECR_PUBLIC_IMAGE_TAG_SCRIPT: tags.sh
+      - name: Extract Version from Dockerfile
+        uses: ./.github/actions/apply-tags
+        with:
+          AWS_ECR_PUBLIC_IMAGE_NAME: ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
+          AWS_ECR_PUBLIC_IMAGE_TAG_SCRIPT: tags.sh
 
-    - name: Docker build & push
-      uses: docker/bake-action@v5
-      with:
-        targets: push
-        workdir: ./src/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
+      - name: Docker build & push
+        uses: docker/bake-action@v5
+        with:
+          targets: push
+          workdir: ./src/${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
 
   dependabot-pr:
     runs-on: ubuntu-latest
@@ -76,7 +76,7 @@ jobs:
         id: metadata
         uses: dependabot/fetch-metadata@v2
         with:
-          github-token: ${{env.GITHUB_TOKEN}}
+          github-token: ${{ env.GITHUB_TOKEN }}
 
       - name: Auto-merge for Dependabot PR
         run: gh pr merge --auto --rebase ${{ github.event.pull_request.number }}

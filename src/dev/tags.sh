@@ -2,4 +2,4 @@
 
 version=($(cat version | head -1))
 
-echo "${version:-dev}"
+echo "${version:-latest}"

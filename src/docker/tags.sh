@@ -2,4 +2,4 @@
 
 docker=($(sed -n 's/^FROM .*:\([^ -]*\).*/\1/p' Dockerfile | head -1))
 
-echo "${docker:-dev}"
+echo "${docker:-latest}"

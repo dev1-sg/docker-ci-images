@@ -19,7 +19,7 @@ variable "AWS_ECR_PUBLIC_IMAGE_NAME" {
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_TAG" {
-  default = "dev"
+  default = "latest"
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_URI" {
