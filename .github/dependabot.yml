@@ -15,6 +15,7 @@ updates:
       - /src/aws-cdk
       - /src/dev
       - /src/docker
+      - /src/huggingface-cli
       - /src/kubectl
       - /src/terraform
     schedule:
