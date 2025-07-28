@@ -57,7 +57,7 @@ target "settings" {
 target "test" {
   inherits = ["settings", "metadata"]
   dockerfile = "Dockerfile"
-  platforms = ["linux/amd64", "linux/arm64"]
+  platforms = ["linux/amd64"]
   tags = []
 }
 
@@ -75,7 +75,7 @@ target "push" {
   inherits = ["settings", "metadata"]
   dockerfile = "Dockerfile"
   output     = ["type=registry"]
-  platforms  = ["linux/amd64", "linux/arm64"]
+  platforms  = ["linux/amd64"]
   tags = [
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest",
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}",

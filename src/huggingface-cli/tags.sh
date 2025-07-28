@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-huggingface_hub=($(sed -n 's/^ARG HUGGINGFACEHUB_VERSION=\(.*\)/\1/p' Dockerfile | head -1))
+huggingface=($(sed -n 's/^ARG HUGGINGFACE_VERSION=\(.*\)/\1/p' Dockerfile | head -1))
 
-echo "${huggingface_hub:-latest}"
+echo "${huggingface:-latest}"
