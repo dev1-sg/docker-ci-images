@@ -26,6 +26,4 @@ RUN curl -fsSL "https://github.com/kubernetes-sigs/kustomize/releases/download/k
 
 FROM base AS final
 
-COPY --from=build /usr/local/bin/kubectl /usr/local/bin/kubectl
-COPY --from=build /usr/local/bin/helm /usr/local/bin/helm
-COPY --from=build /usr/local/bin/kustomize /usr/local/bin/kustomize
+COPY --from=build /usr/local/bin /usr/local/bin

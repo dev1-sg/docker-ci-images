@@ -26,6 +26,4 @@ RUN curl -fsSL "https://github.com/terraform-docs/terraform-docs/releases/downlo
 
 FROM base AS final
 
-COPY --from=build /usr/local/bin/terraform /usr/local/bin/terraform
-COPY --from=build /usr/local/bin/terragrunt /usr/local/bin/terragrunt
-COPY --from=build /usr/local/bin/terraform-docs /usr/local/bin/terraform-docs
+COPY --from=build /usr/local/bin /usr/local/bin

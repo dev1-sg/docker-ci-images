@@ -1,9 +1,7 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM public.ecr.aws/dev1-sg/alpine/uv:3.13.5-3.22.1 AS base
+FROM public.ecr.aws/dev1-sg/alpine/python:3.13.6-3.21 AS base
 
 ARG HUGGINGFACE_VERSION=0.34.1
 
-USER root
-
-RUN uv tool install huggingface_hub==${HUGGINGFACE_VERSION}
+RUN pip3 install --upgrade huggingface_hub==${HUGGINGFACE_VERSION}
