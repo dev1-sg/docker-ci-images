@@ -8,7 +8,7 @@ ARG NODE_VERSION=24.0.1
 
 RUN apk add curl tar xz \
     && curl -fL "https://unofficial-builds.nodejs.org/download/release/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64-musl.tar.gz" -o /tmp/node.tar.gz \
-    && tar --strip-components=1 -xvf /tmp/node.tar.gz -C /usr/local/ --wildcards '*/bin/*' '*/lib/*' '*/include/*' '*/share/*'
+    && tar --strip-components=1 -xJf /tmp/node.tar.gz -C /usr/local/ --wildcards '*/bin/*' '*/lib/*' '*/include/*' '*/share/*'
 
 FROM base AS final
 
