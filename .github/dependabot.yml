@@ -13,6 +13,7 @@ updates:
     directories:
       - /src/ansible
       - /src/aws-cdk
+      - /src/codex-cli
       - /src/dev
       - /src/docker
       - /src/huggingface-cli
