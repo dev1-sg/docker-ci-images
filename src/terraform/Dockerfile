@@ -8,7 +8,7 @@ ARG TERRAFORM_VERSION=1.12.0
 ARG TERRAGRUNT_VERSION=0.78.4
 ARG TERRAFORM_DOCS_VERSION=0.20.0
 
-RUN apk add --no-cache unzip tar
+RUN apk add --no-cache unzip tar gzip
 
 RUN curl -fsSL "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_$(case $(uname -m) in x86_64) echo amd64 ;; aarch64) echo arm64 ;; esac).zip" -o /tmp/terraform.zip \
     && unzip /tmp/terraform.zip -d /tmp \

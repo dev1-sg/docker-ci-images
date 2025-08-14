@@ -16,6 +16,7 @@ updates:
       - /src/codex-cli
       - /src/dev
       - /src/docker
+      - /src/glab
       - /src/kubectl
       - /src/terraform
     schedule:
