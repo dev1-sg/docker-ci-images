@@ -61,22 +61,6 @@ target "settings" {
   }
 }
 
-group "default" {
-  targets = ["test-alpine"]
-}
-
-group "test" {
-  targets = ["test-alpine"]
-}
-
-group "build" {
-  targets = ["build-alpine", "build-debian"]
-}
-
-group "push" {
-  targets = ["push-alpine", "push-debian"]
-}
-
 target "test-alpine" {
   inherits = ["settings", "metadata"]
   dockerfile = "Dockerfile.alpine"
@@ -97,8 +81,9 @@ target "build-alpine" {
   output     = ["type=docker"]
   tags = [
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest",
-    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest-alpine",
-    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:alpine",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:alpine${AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}-alpine${AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE}",
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}",
   ]
 }
@@ -108,8 +93,9 @@ target "build-debian" {
   dockerfile = "Dockerfile.debian"
   output     = ["type=docker"]
   tags = [
-    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest-debian",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:debian",
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}-${AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN}",
   ]
 }
 
@@ -120,8 +106,9 @@ target "push-alpine" {
   platforms  = ["linux/amd64", "linux/arm64"]
   tags = [
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest",
-    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest-alpine",
-    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:alpine",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:alpine${AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}-alpine${AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE}",
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}",
   ]
 }
@@ -132,7 +119,24 @@ target "push-debian" {
   output     = ["type=registry"]
   platforms  = ["linux/amd64", "linux/arm64"]
   tags = [
-    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest-debian",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:debian",
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}-${AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN}",
   ]
+}
+
+group "default" {
+  targets = ["test-alpine"]
+}
+
+group "test" {
+  targets = ["test-alpine"]
+}
+
+group "build" {
+  targets = ["build-alpine", "build-debian"]
+}
+
+group "push" {
+  targets = ["push-alpine", "push-debian"]
 }

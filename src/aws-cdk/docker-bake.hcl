@@ -14,6 +14,10 @@ variable "AWS_ECR_PUBLIC_URL" {
   default = "https://ecr-public.us-east-1.amazonaws.com"
 }
 
+variable "AWS_ECR_PUBLIC_REPOSITORY_GROUP" {
+  default = "ci"
+}
+
 variable "AWS_ECR_PUBLIC_IMAGE_NAME" {
   default = "aws-cdk"
 }
@@ -22,16 +26,16 @@ variable "AWS_ECR_PUBLIC_IMAGE_TAG" {
   default = "latest"
 }
 
+variable "AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE" {
+  default = "alpine"
+}
+
+variable "AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN" {
+  default = "debian"
+}
+
 variable "AWS_ECR_PUBLIC_IMAGE_URI" {
   default = "public.ecr.aws/dev1-sg/ci/aws-cdk:latest"
-}
-
-variable "AWS_ECR_PUBLIC_REPOSITORY_GROUP" {
-  default = "ci"
-}
-
-group "default" {
-  targets = ["build"]
 }
 
 target "metadata" {
@@ -52,32 +56,87 @@ target "settings" {
   cache-to = [
     "type=gha,mode=max"
   ]
+  args = {
+    AWSCDK_VERSION = "${AWS_ECR_PUBLIC_IMAGE_TAG}"
+  }
 }
 
-target "test" {
+target "test-alpine" {
   inherits = ["settings", "metadata"]
-  dockerfile = "Dockerfile"
+  dockerfile = "Dockerfile.alpine"
   platforms = ["linux/amd64", "linux/arm64"]
   tags = []
 }
 
-target "build" {
+target "test-debian" {
   inherits = ["settings", "metadata"]
-  dockerfile = "Dockerfile"
+  dockerfile = "Dockerfile.debian"
+  platforms = ["linux/amd64", "linux/arm64"]
+  tags = []
+}
+
+target "build-alpine" {
+  inherits = ["settings", "metadata"]
+  dockerfile = "Dockerfile.alpine"
   output     = ["type=docker"]
   tags = [
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:alpine",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:alpine${AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}-alpine${AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE}",
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}",
   ]
 }
 
-target "push" {
+target "build-debian" {
   inherits = ["settings", "metadata"]
-  dockerfile = "Dockerfile"
+  dockerfile = "Dockerfile.debian"
+  output     = ["type=docker"]
+  tags = [
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:debian",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}-${AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN}",
+  ]
+}
+
+target "push-alpine" {
+  inherits = ["settings", "metadata"]
+  dockerfile = "Dockerfile.alpine"
   output     = ["type=registry"]
   platforms  = ["linux/amd64", "linux/arm64"]
   tags = [
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:alpine",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:alpine${AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}-alpine${AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE}",
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}",
   ]
+}
+
+target "push-debian" {
+  inherits = ["settings", "metadata"]
+  dockerfile = "Dockerfile.debian"
+  output     = ["type=registry"]
+  platforms  = ["linux/amd64", "linux/arm64"]
+  tags = [
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:debian",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}-${AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN}",
+  ]
+}
+
+group "default" {
+  targets = ["test-alpine"]
+}
+
+group "test" {
+  targets = ["test-alpine"]
+}
+
+group "build" {
+  targets = ["build-alpine", "build-debian"]
+}
+
+group "push" {
+  targets = ["push-alpine", "push-debian"]
 }

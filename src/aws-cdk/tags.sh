@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
-aws_cdk=($(sed -n 's/^ARG AWSCDK_VERSION=\(.*\)/\1/p' Dockerfile | head -1))
+alpine=$(sed -n 's/^FROM .*:\([^-]*-\)\([^- ]*\).*/\2/p' Dockerfile.alpine | head -1)
+debian=$(sed -n 's/^FROM .*:\([0-9.]*-\)\?\([^ ]*\).*/\2/p' Dockerfile.debian | head -1)
+awscdk=$(cat .version)
 
-echo "${aws_cdk:-latest}"
+export AWS_ECR_PUBLIC_IMAGE_TAG="${awscdk}"
+export AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE="${alpine}"
+export AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN="${debian}"
+
+if [ -n "$GITHUB_ENV" ]; then
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG=$AWS_ECR_PUBLIC_IMAGE_TAG" >> $GITHUB_ENV
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE=$AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE" >> $GITHUB_ENV
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN=$AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN" >> $GITHUB_ENV
+else
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG=$AWS_ECR_PUBLIC_IMAGE_TAG"
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE=$AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE"
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN=$AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN"
+fi

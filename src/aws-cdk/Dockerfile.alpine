@@ -2,6 +2,10 @@
 
 FROM public.ecr.aws/dev1-sg/alpine/node:24.5.0-3.21 AS base
 
-ARG AWSCDK_VERSION=2.1024.0
+ARG AWSCDK_VERSION
+
+USER root
 
 RUN npm i -g cdk@${AWSCDK_VERSION}
+
+WORKDIR /build

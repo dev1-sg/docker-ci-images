@@ -9,7 +9,7 @@ USER root
 RUN apk add --no-cache \
     make openssh sshpass libc6-compat
 
-WORKDIR /app
+WORKDIR /build
 
 FROM base AS build
 

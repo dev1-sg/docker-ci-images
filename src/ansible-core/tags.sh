@@ -5,8 +5,8 @@ debian=$(sed -n 's/^FROM .*:\([0-9.]*-\)\?\([^ ]*\).*/\2/p' Dockerfile.debian | 
 ansible=$(cat .version)
 
 export AWS_ECR_PUBLIC_IMAGE_TAG="${ansible}"
-export AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE="${ansible}-alpine${alpine}"
-export AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN="${ansible}-${debian}"
+export AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE="${alpine}"
+export AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN="${debian}"
 
 if [ -n "$GITHUB_ENV" ]; then
   echo "AWS_ECR_PUBLIC_IMAGE_TAG=$AWS_ECR_PUBLIC_IMAGE_TAG" >> $GITHUB_ENV
