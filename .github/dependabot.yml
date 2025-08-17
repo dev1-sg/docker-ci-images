@@ -11,9 +11,8 @@ registries:
 updates:
   - package-ecosystem: docker
     directories:
-      - /src/ansible
+      - /src/ansible-core
       - /src/aws-cdk
-      - /src/codex-cli
       - /src/dev
       - /src/docker
       - /src/glab

@@ -9,7 +9,7 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 )
 
-var Codexcli = struct {
+var Ansiblecore = struct {
 	AWS_ECR_PUBLIC_REGION           string
 	AWS_ECR_PUBLIC_URI              string
 	AWS_ECR_PUBLIC_REPOSITORY_GROUP string
@@ -19,16 +19,16 @@ var Codexcli = struct {
 	AWS_ECR_PUBLIC_REGION:           "us-east-1",
 	AWS_ECR_PUBLIC_URI:              "public.ecr.aws/dev1-sg",
 	AWS_ECR_PUBLIC_REPOSITORY_GROUP: "ci",
-	AWS_ECR_PUBLIC_IMAGE_NAME:       "codex-cli",
+	AWS_ECR_PUBLIC_IMAGE_NAME:       "ansible-core",
 	AWS_ECR_PUBLIC_IMAGE_TAG:        "latest",
 }
 
-func TestContainersGoPullCodexcli(t *testing.T) {
+func TestContainersGoPullAnsiblecore(t *testing.T) {
 	ctx := context.Background()
 	for attempt := 0; attempt < 3; attempt++ {
 		container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 			ContainerRequest: testcontainers.ContainerRequest{
-				Image: Codexcli.AWS_ECR_PUBLIC_URI + "/" + Codexcli.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Codexcli.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Codexcli.AWS_ECR_PUBLIC_IMAGE_TAG,
+				Image: Ansiblecore.AWS_ECR_PUBLIC_URI + "/" + Ansiblecore.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Ansiblecore.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Ansiblecore.AWS_ECR_PUBLIC_IMAGE_TAG,
 			},
 		})
 		require.NoError(t, e)
@@ -36,11 +36,11 @@ func TestContainersGoPullCodexcli(t *testing.T) {
 	}
 }
 
-func TestContainersGoExecCodexcli(t *testing.T) {
+func TestContainersGoExecAnsiblecore(t *testing.T) {
 	ctx := context.Background()
 	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
-			Image: Codexcli.AWS_ECR_PUBLIC_URI + "/" + Codexcli.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Codexcli.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Codexcli.AWS_ECR_PUBLIC_IMAGE_TAG,
+			Image: Ansiblecore.AWS_ECR_PUBLIC_URI + "/" + Ansiblecore.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Ansiblecore.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Ansiblecore.AWS_ECR_PUBLIC_IMAGE_TAG,
 			Cmd:   []string{"sleep", "10"},
 		},
 		Started: true,
@@ -49,7 +49,10 @@ func TestContainersGoExecCodexcli(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"codex", "--version"},
+		{"python", "--version"},
+		{"aws", "--version"},
+		{"session-manager-plugin", "--version"},
+		{"ansible", "--version"},
 	}
 
 	for _, cmd := range commands {

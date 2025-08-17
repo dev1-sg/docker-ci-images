@@ -1,15 +1,15 @@
 ---
-name: Push codex-cli
+name: Push ansible-core
 
 on:
   push:
     branches:
       - main
     paths:
-      - src/codex-cli/*
+      - src/ansible-core/*
   pull_request:
     paths:
-      - src/codex-cli/*
+      - src/ansible-core/*
   workflow_dispatch:
 
 permissions:
@@ -18,7 +18,7 @@ permissions:
 
 env:
   AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
-  AWS_ECR_PUBLIC_IMAGE_NAME: codex-cli
+  AWS_ECR_PUBLIC_IMAGE_NAME: ansible-core
   AWS_ECR_PUBLIC_REPOSITORY_GROUP: ci
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TZ: Asia/Singapore
