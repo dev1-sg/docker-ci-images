@@ -74,7 +74,7 @@ group "build" {
 }
 
 group "push" {
-  targets = ["build-alpine", "push-debian"]
+  targets = ["push-alpine", "push-debian"]
 }
 
 target "test-alpine" {
