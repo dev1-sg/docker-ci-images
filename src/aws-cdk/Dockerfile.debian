@@ -1,8 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM public.ecr.aws/dev1-sg/base/node:24.5.0-bookworm AS base
-
-ARG AWSCDK_VERSION
+FROM public.ecr.aws/dev1-sg/base/python:3.13.5-bookworm AS base
 
 USER root
 
@@ -18,8 +16,16 @@ RUN install -m 0755 -d /etc/apt/keyrings \
 
 WORKDIR /build
 
+FROM public.ecr.aws/dev1-sg/base/node:24.5.0-bookworm AS build
+
+ARG AWSCDK_VERSION
+
+RUN npm i -g cdk@${AWSCDK_VERSION}
+
 FROM base AS final
 
-RUN npm i -g cdk@${AWSCDK_VERSION} \
-    && apt-get clean \
+COPY --from=build /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=build /usr/local/bin /usr/local/bin
+
+RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/*

@@ -1,8 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM public.ecr.aws/dev1-sg/alpine/node:24.5.0-3.21 AS base
-
-ARG AWSCDK_VERSION
+FROM public.ecr.aws/dev1-sg/alpine/python:3.13.6-3.21 AS base
 
 USER root
 
@@ -10,7 +8,15 @@ RUN apk add --no-cache docker-cli
 
 WORKDIR /build
 
+FROM public.ecr.aws/dev1-sg/alpine/node:24.5.0-3.21 AS build
+
+ARG AWSCDK_VERSION
+
+RUN npm i -g cdk@${AWSCDK_VERSION}
+
 FROM base AS final
 
-RUN npm i -g cdk@${AWSCDK_VERSION} \
-    && rm -rf /var/cache/apk/*
+COPY --from=build /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=build /usr/local/bin /usr/local/bin
+
+RUN rm -rf /var/cache/apk/*
