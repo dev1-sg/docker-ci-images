@@ -6,7 +6,7 @@ ARG ANSIBLE_VERSION
 
 USER root
 
-RUN apk add --no-cache \
+RUN apk add --no-cache docker-cli \
     make openssh sshpass libc6-compat
 
 WORKDIR /build
