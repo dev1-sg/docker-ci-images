@@ -6,6 +6,8 @@ ARG AWSCDK_VERSION
 
 USER root
 
-RUN npm i -g cdk@${AWSCDK_VERSION}
+RUN apk add --no-cache docker \
+    && npm i -g cdk@${AWSCDK_VERSION} \
+    && rm -rf /var/cache/apk/*
 
 WORKDIR /build
