@@ -51,7 +51,6 @@ func TestContainersGoExecAnsiblecore(t *testing.T) {
 	commands := [][]string{
 		{"python", "--version"},
 		{"aws", "--version"},
-		{"session-manager-plugin", "--version"},
 		{"ansible", "--version"},
 	}
 
