@@ -12,9 +12,8 @@ WORKDIR /build
 
 FROM base AS build
 
-RUN apk add --no-cache tar gzip
-
-RUN curl -fsSL "https://gitlab.com/gitlab-org/cli/-/releases/v${GLAB_VERSION}/downloads/glab_${GLAB_VERSION}_linux_$(case $(uname -m) in x86_64) echo amd64 ;; aarch64) echo arm64 ;; esac).tar.gz" -o /tmp/glab.tar.gz \
+RUN apk add --no-cache tar gzip \
+    && curl -fsSL "https://gitlab.com/gitlab-org/cli/-/releases/v${GLAB_VERSION}/downloads/glab_${GLAB_VERSION}_linux_$(case $(uname -m) in x86_64) echo amd64 ;; aarch64) echo arm64 ;; esac).tar.gz" -o /tmp/glab.tar.gz \
     && tar -xvf /tmp/glab.tar.gz -C /tmp \
     && cp /tmp/bin/glab /usr/local/bin/glab \
     && chmod +x /usr/local/bin/glab
