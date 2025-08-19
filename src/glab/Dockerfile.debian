@@ -1,14 +1,12 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM public.ecr.aws/dev1-sg/base/python:3.13.5-bookworm AS base
+FROM public.ecr.aws/dev1-sg/base/debian:bookworm AS base
 
-ARG ANSIBLE_VERSION
+ARG GLAB_VERSION
 
 USER root
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    make openssh-client sshpass \
-    && install -m 0755 -d /etc/apt/keyrings \
+RUN install -m 0755 -d /etc/apt/keyrings \
     && curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc \
     && chmod a+r /etc/apt/keyrings/docker.asc \
     && echo \
@@ -27,17 +25,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends un
     && unzip -qq /tmp/awscliv2.zip -d /tmp \
     && bash /tmp/aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends dpkg \
-    && curl -fsSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_$(case $(uname -m) in x86_64) echo 64bit ;; aarch64) echo arm64 ;; esac)/session-manager-plugin.deb" -o /tmp/session-manager-plugin.deb \
-    && dpkg -x /tmp/session-manager-plugin.deb /tmp/session-manager-plugin \
-    && cp /tmp/session-manager-plugin/usr/local/sessionmanagerplugin/bin/session-manager-plugin /usr/local/bin/session-manager-plugin \
-    && chmod +x /usr/local/bin/session-manager-plugin
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tar gzip\
+    && curl -fsSL "https://gitlab.com/gitlab-org/cli/-/releases/v${GLAB_VERSION}/downloads/glab_${GLAB_VERSION}_linux_$(case $(uname -m) in x86_64) echo amd64 ;; aarch64) echo arm64 ;; esac).tar.gz" -o /tmp/glab.tar.gz \
+    && tar -xvf /tmp/glab.tar.gz -C /tmp \
+    && cp /tmp/bin/glab /usr/local/bin/glab \
+    && chmod +x /usr/local/bin/glab
 
 FROM base AS final
 
 COPY --from=build /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=build /usr/local/bin /usr/local/bin
 
-RUN uv tool install ansible-core==${ANSIBLE_VERSION} \
-    && apt-get clean \
+RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/*

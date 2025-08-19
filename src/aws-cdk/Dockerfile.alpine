@@ -4,7 +4,7 @@ FROM public.ecr.aws/dev1-sg/alpine/python:3.13.6-3.21 AS base
 
 USER root
 
-RUN apk add --no-cache docker-cli
+RUN apk add --no-cache docker-cli aws-cli jq
 
 WORKDIR /build
 

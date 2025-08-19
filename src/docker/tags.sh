@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-cli=$(sed -n 's/.*docker:\([0-9.]*\).*/\1/p' Dockerfile.cli | head -1)
-dind=$(sed -n 's/.*docker:\([0-9.]*\).*/\1/p' Dockerfile.dind | head -1)
+cli=$(sed -n 's/^FROM .*:\([0-9.]*\).*/\1/p' Dockerfile.cli | head -1)
+dind=$(sed -n 's/^FROM .*:\([0-9.]*\).*/\1/p' Dockerfile.dind | head -1)
 
 export AWS_ECR_PUBLIC_IMAGE_TAG_CLI="${cli}"
 export AWS_ECR_PUBLIC_IMAGE_TAG_DIND="${dind}"
