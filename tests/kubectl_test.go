@@ -41,7 +41,7 @@ func TestContainersGoExecKubectl(t *testing.T) {
 	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image: Kubectl.AWS_ECR_PUBLIC_URI + "/" + Kubectl.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Kubectl.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Kubectl.AWS_ECR_PUBLIC_IMAGE_TAG,
-			Cmd:   []string{"sleep", "10"},
+			Cmd:   []string{"/bin/bash", "-c", "sleep infinity"},
 		},
 		Started: true,
 	})
@@ -49,10 +49,10 @@ func TestContainersGoExecKubectl(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"aws", "--version"},
-		{"kubectl", "version", "--client"},
-		{"helm", "version"},
-		{"kustomize", "version"},
+		{"/bin/bash", "-c", "-l", "aws --version"},
+		{"/bin/bash", "-c", "-l", "kubectl version --client"},
+		{"/bin/bash", "-c", "-l", "helm version"},
+		{"/bin/bash", "-c", "-l", "kustomize version"},
 	}
 
 	for _, cmd := range commands {

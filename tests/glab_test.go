@@ -41,7 +41,7 @@ func TestContainersGoExecGlab(t *testing.T) {
 	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image: Glab.AWS_ECR_PUBLIC_URI + "/" + Glab.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Glab.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Glab.AWS_ECR_PUBLIC_IMAGE_TAG,
-			Cmd:   []string{"sleep", "10"},
+			Cmd:   []string{"/bin/bash", "-c", "sleep infinity"},
 		},
 		Started: true,
 	})
@@ -49,8 +49,8 @@ func TestContainersGoExecGlab(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"aws", "--version"},
-		{"glab", "--version"},
+		{"/bin/bash", "-c", "-l", "aws --version"},
+		{"/bin/bash", "-c", "-l", "glab --version"},
 	}
 
 	for _, cmd := range commands {

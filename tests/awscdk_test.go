@@ -41,7 +41,7 @@ func TestContainersGoExecAwscdk(t *testing.T) {
 	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image: Awscdk.AWS_ECR_PUBLIC_URI + "/" + Awscdk.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Awscdk.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Awscdk.AWS_ECR_PUBLIC_IMAGE_TAG,
-			Cmd:   []string{"sleep", "10"},
+			Cmd:   []string{"/bin/bash", "-c", "sleep infinity"},
 		},
 		Started: true,
 	})
@@ -49,9 +49,9 @@ func TestContainersGoExecAwscdk(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"aws", "--version"},
-		{"cdk", "--version"},
-		{"python", "--version"},
+		{"/bin/bash", "-c", "-l", "python --version"},
+		{"/bin/bash", "-c", "-l", "aws --version"},
+		{"/bin/bash", "-c", "-l", "cdk --version"},
 	}
 
 	for _, cmd := range commands {

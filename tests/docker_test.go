@@ -41,7 +41,7 @@ func TestContainersGoExecDocker(t *testing.T) {
 	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image: Docker.AWS_ECR_PUBLIC_URI + "/" + Docker.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Docker.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Docker.AWS_ECR_PUBLIC_IMAGE_TAG,
-			Cmd:   []string{"sleep", "10"},
+			Cmd:   []string{"/bin/bash", "-c", "sleep infinity"},
 		},
 		Started: true,
 	})
@@ -49,7 +49,7 @@ func TestContainersGoExecDocker(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"docker", "--version"},
+		{"/bin/bash", "-c", "-l", "docker --version"},
 	}
 
 	for _, cmd := range commands {

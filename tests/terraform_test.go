@@ -39,7 +39,7 @@ func TestContainersGoExecTerraform(t *testing.T) {
 	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image: Terraform.AWS_ECR_PUBLIC_URI + "/" + Terraform.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Terraform.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Terraform.AWS_ECR_PUBLIC_IMAGE_TAG,
-			Cmd:   []string{"sleep", "10"},
+			Cmd:   []string{"/bin/bash", "-c", "sleep infinity"},
 		},
 		Started: true,
 	})
@@ -47,9 +47,9 @@ func TestContainersGoExecTerraform(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"terraform", "--version"},
-		{"terragrunt", "--version"},
-		{"aws", "--version"},
+		{"/bin/bash", "-c", "-l", "aws --version"},
+		{"/bin/bash", "-c", "-l", "terraform --version"},
+		{"/bin/bash", "-c", "-l", "terragrunt --version"},
 	}
 
 	for _, cmd := range commands {
