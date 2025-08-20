@@ -91,6 +91,6 @@ jobs:
           go test -run 'TestContainersGo.*' ./... -v
 
       - name: Auto-merge for Dependabot PR
-        run: gh pr merge --auto --rebase ${{ github.event.pull_request.number }}
+        run: gh pr merge --auto --merge "${{github.event.pull_request.html_url}}"
         env:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}

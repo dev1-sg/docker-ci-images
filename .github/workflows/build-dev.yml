@@ -66,6 +66,12 @@ jobs:
       - name: Setup docker buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Extract Version from Dockerfile
+        uses: ./.github/actions/apply-tags
+        with:
+          AWS_ECR_PUBLIC_IMAGE_NAME: ${{ env.AWS_ECR_PUBLIC_IMAGE_NAME }}
+          AWS_ECR_PUBLIC_IMAGE_TAG_SCRIPT: tags.sh
+
       - name: Run docker buildx test
         uses: docker/bake-action@v5
         with:
@@ -75,10 +81,8 @@ jobs:
       - name: Setup Dependabot Metadata
         id: metadata
         uses: dependabot/fetch-metadata@v2
-        with:
-          github-token: ${{ env.GITHUB_TOKEN }}
 
       - name: Auto-merge for Dependabot PR
-        run: gh pr merge --auto --rebase ${{ github.event.pull_request.number }}
+        run: gh pr merge --auto --merge "${{github.event.pull_request.html_url}}"
         env:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
