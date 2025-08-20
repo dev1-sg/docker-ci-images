@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM public.ecr.aws/dev1-sg/alpine/python:3.13.6-3.21 AS base
+FROM public.ecr.aws/dev1-sg/alpine/python:3.13.7-3.21 AS base
 
 USER root
 
