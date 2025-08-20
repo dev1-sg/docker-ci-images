@@ -49,7 +49,7 @@ func TestContainersGoExecDev(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"/bin/bash", "-c", "-l", "echo hello world"},
+		{"/bin/bash", "-c", "echo hello world"},
 	}
 
 	for _, cmd := range commands {

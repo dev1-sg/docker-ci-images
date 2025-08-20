@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
-kubectl=($(sed -n 's/^ARG KUBECTL_VERSION=\(.*\)/\1/p' Dockerfile | head -1))
+alpine=$(sed -n 's/^FROM .*:\([0-9.]*\).*/\1/p' Dockerfile.alpine | head -1)
+debian=$(sed -n 's/^FROM .*:\([0-9.]*-\)\?\([^ ]*\).*/\2/p' Dockerfile.debian | head -1)
+kubectl=$(cat .version)
 
-echo "${kubectl:-latest}"
+export AWS_ECR_PUBLIC_IMAGE_TAG="${kubectl}"
+export AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE="${alpine}"
+export AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN="${debian}"
+
+if [ -n "$GITHUB_ENV" ]; then
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG=$AWS_ECR_PUBLIC_IMAGE_TAG" >> $GITHUB_ENV
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE=$AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE" >> $GITHUB_ENV
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN=$AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN" >> $GITHUB_ENV
+else
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG=$AWS_ECR_PUBLIC_IMAGE_TAG"
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE=$AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE"
+  echo "AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN=$AWS_ECR_PUBLIC_IMAGE_TAG_DEBIAN"
+fi

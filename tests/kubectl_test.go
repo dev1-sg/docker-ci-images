@@ -49,10 +49,10 @@ func TestContainersGoExecKubectl(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"/bin/bash", "-c", "-l", "aws --version"},
-		{"/bin/bash", "-c", "-l", "kubectl version --client"},
-		{"/bin/bash", "-c", "-l", "helm version"},
-		{"/bin/bash", "-c", "-l", "kustomize version"},
+		{"/bin/bash", "-c", "aws --version"},
+		{"/bin/bash", "-c", "kubectl version --client"},
+		{"/bin/bash", "-c", "helm version"},
+		{"/bin/bash", "-c", "kustomize version"},
 	}
 
 	for _, cmd := range commands {

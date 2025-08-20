@@ -49,8 +49,8 @@ func TestContainersGoExecGlab(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"/bin/bash", "-c", "-l", "aws --version"},
-		{"/bin/bash", "-c", "-l", "glab --version"},
+		{"/bin/bash", "-c", "aws --version"},
+		{"/bin/bash", "-c", "glab --version"},
 	}
 
 	for _, cmd := range commands {

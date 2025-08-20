@@ -49,9 +49,9 @@ func TestContainersGoExecAnsiblecore(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"/bin/bash", "-c", "-l", "python --version"},
-		{"/bin/bash", "-c", "-l", "aws --version"},
-		{"/bin/bash", "-c", "-l", "ansible --version"},
+		{"/bin/bash", "-c", "python --version"},
+		{"/bin/bash", "-c", "aws --version"},
+		{"/bin/bash", "-c", "ansible --version"},
 	}
 
 	for _, cmd := range commands {

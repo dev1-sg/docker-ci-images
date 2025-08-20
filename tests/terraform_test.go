@@ -47,9 +47,9 @@ func TestContainersGoExecTerraform(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"/bin/bash", "-c", "-l", "aws --version"},
-		{"/bin/bash", "-c", "-l", "terraform --version"},
-		{"/bin/bash", "-c", "-l", "terragrunt --version"},
+		{"/bin/bash", "-c", "aws --version"},
+		{"/bin/bash", "-c", "terraform --version"},
+		{"/bin/bash", "-c", "terragrunt --version"},
 	}
 
 	for _, cmd := range commands {

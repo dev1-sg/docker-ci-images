@@ -13,13 +13,12 @@ WORKDIR /build
 
 FROM base AS build
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends unzip \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends unzip dpkg \
     && curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-$(case $(uname -m) in x86_64) echo x86_64 ;; aarch64) echo aarch64 ;; esac).zip" -o /tmp/awscliv2.zip \
     && unzip -qq /tmp/awscliv2.zip -d /tmp \
     && bash /tmp/aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends dpkg \
-    && curl -fsSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_$(case $(uname -m) in x86_64) echo 64bit ;; aarch64) echo arm64 ;; esac)/session-manager-plugin.deb" -o /tmp/session-manager-plugin.deb \
+RUN curl -fsSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_$(case $(uname -m) in x86_64) echo 64bit ;; aarch64) echo arm64 ;; esac)/session-manager-plugin.deb" -o /tmp/session-manager-plugin.deb \
     && dpkg -x /tmp/session-manager-plugin.deb /tmp/session-manager-plugin \
     && cp /tmp/session-manager-plugin/usr/local/sessionmanagerplugin/bin/session-manager-plugin /usr/local/bin/session-manager-plugin \
     && chmod +x /usr/local/bin/session-manager-plugin

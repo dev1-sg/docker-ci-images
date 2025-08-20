@@ -49,9 +49,9 @@ func TestContainersGoExecAwscdk(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"/bin/bash", "-c", "-l", "python --version"},
-		{"/bin/bash", "-c", "-l", "aws --version"},
-		{"/bin/bash", "-c", "-l", "cdk --version"},
+		{"/bin/bash", "-c", "python --version"},
+		{"/bin/bash", "-c", "aws --version"},
+		{"/bin/bash", "-c", "cdk --version"},
 	}
 
 	for _, cmd := range commands {

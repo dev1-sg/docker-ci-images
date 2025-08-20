@@ -49,7 +49,7 @@ func TestContainersGoExecDocker(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"/bin/bash", "-c", "-l", "docker --version"},
+		{"/bin/bash", "-c", "docker --version"},
 	}
 
 	for _, cmd := range commands {
