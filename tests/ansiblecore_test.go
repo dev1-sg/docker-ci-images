@@ -41,9 +41,7 @@ func TestContainersGoExecAnsiblecore(t *testing.T) {
 	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image: Ansiblecore.AWS_ECR_PUBLIC_URI + "/" + Ansiblecore.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Ansiblecore.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Ansiblecore.AWS_ECR_PUBLIC_IMAGE_TAG,
-			Entrypoint: []string{"/bin/bash"},
 			Cmd:        []string{"-c", "tail -f /dev/null"},
-			User:       "root",
 		},
 		Started: true,
 	})
@@ -51,9 +49,9 @@ func TestContainersGoExecAnsiblecore(t *testing.T) {
 	defer container.Terminate(ctx)
 
 	commands := [][]string{
-		{"python", "--version"},
-		{"aws", "--version"},
-		{"ansible", "--version"},
+		{"/bin/bash", "-l", "-c", "python --version"},
+		{"/bin/bash", "-l", "-c", "aws --version"},
+		{"/bin/bash", "-l", "-c", "ansible --version"},
 	}
 
 	for _, cmd := range commands {
