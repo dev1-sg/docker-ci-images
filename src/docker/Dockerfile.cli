@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM docker.io/docker:28.2.2-cli AS base
+FROM docker.io/docker:28.3.3-cli AS base
 
 USER root
 
