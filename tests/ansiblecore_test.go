@@ -43,6 +43,7 @@ func TestContainersGoExecAnsiblecore(t *testing.T) {
 			Image: Ansiblecore.AWS_ECR_PUBLIC_URI + "/" + Ansiblecore.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Ansiblecore.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Ansiblecore.AWS_ECR_PUBLIC_IMAGE_TAG,
 			Entrypoint: []string{"/bin/bash"},
 			Cmd:        []string{"-c", "tail -f /dev/null"},
+			User:       "root",
 		},
 		Started: true,
 	})
