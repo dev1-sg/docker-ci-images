@@ -41,7 +41,7 @@ func TestContainersGoExecAnsiblecore(t *testing.T) {
 	container, e := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image: Ansiblecore.AWS_ECR_PUBLIC_URI + "/" + Ansiblecore.AWS_ECR_PUBLIC_REPOSITORY_GROUP + "/" + Ansiblecore.AWS_ECR_PUBLIC_IMAGE_NAME + ":" + Ansiblecore.AWS_ECR_PUBLIC_IMAGE_TAG,
-			Cmd:        []string{"-c", "tail -f /dev/null"},
+			Cmd:   []string{"/bin/bash", "-c", "tail -f /dev/null"},
 		},
 		Started: true,
 	})
