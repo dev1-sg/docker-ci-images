@@ -8,7 +8,7 @@ RUN apk add --no-cache aws-cli jq
 
 WORKDIR /builds
 
-FROM public.ecr.aws/dev1-sg/alpine/node:24.5.0-alpine3.21 AS build
+FROM public.ecr.aws/dev1-sg/alpine/node:24.6.0-alpine3.21 AS build
 
 COPY --from=base /usr/local/bin /usr/local/bin
 COPY --from=base /usr/local/lib /usr/local/lib
