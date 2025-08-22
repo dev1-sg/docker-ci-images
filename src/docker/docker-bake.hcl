@@ -30,10 +30,6 @@ variable "AWS_ECR_PUBLIC_IMAGE_TAG_CLI" {
   default = "latest"
 }
 
-variable "AWS_ECR_PUBLIC_IMAGE_TAG_DIND" {
-  default = "latest"
-}
-
 variable "AWS_ECR_PUBLIC_IMAGE_URI" {
   default = "public.ecr.aws/dev1-sg/ci/docker:latest"
 }
@@ -59,21 +55,21 @@ target "settings" {
 }
 
 target "test-cli" {
-  inherits = ["settings", "metadata"]
+  inherits   = ["settings", "metadata"]
   dockerfile = "Dockerfile.cli"
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = []
+  platforms  = ["linux/amd64", "linux/arm64"]
+  tags       = []
 }
 
 target "test-dind" {
-  inherits = ["settings", "metadata"]
+  inherits   = ["settings", "metadata"]
   dockerfile = "Dockerfile.dind"
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = []
+  platforms  = ["linux/amd64", "linux/arm64"]
+  tags       = []
 }
 
 target "build-cli" {
-  inherits = ["settings", "metadata"]
+  inherits   = ["settings", "metadata"]
   dockerfile = "Dockerfile.cli"
   output     = ["type=docker"]
   tags = [
@@ -83,19 +79,19 @@ target "build-cli" {
 }
 
 target "build-dind" {
-  inherits = ["settings", "metadata"]
+  inherits   = ["settings", "metadata"]
   dockerfile = "Dockerfile.dind"
   output     = ["type=docker"]
   tags = [
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest",
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:dind",
-    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG_DIND}-dind",
-    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG_DIND}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}-dind",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}",
   ]
 }
 
 target "push-cli" {
-  inherits = ["settings", "metadata"]
+  inherits   = ["settings", "metadata"]
   dockerfile = "Dockerfile.cli"
   output     = ["type=registry"]
   platforms  = ["linux/amd64", "linux/arm64"]
@@ -106,15 +102,15 @@ target "push-cli" {
 }
 
 target "push-dind" {
-  inherits = ["settings", "metadata"]
+  inherits   = ["settings", "metadata"]
   dockerfile = "Dockerfile.dind"
   output     = ["type=registry"]
   platforms  = ["linux/amd64", "linux/arm64"]
   tags = [
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest",
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:dind",
-    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG_DIND}-dind",
-    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG_DIND}",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}-dind",
+    "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}",
   ]
 }
 

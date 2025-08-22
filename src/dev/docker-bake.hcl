@@ -14,6 +14,10 @@ variable "AWS_ECR_PUBLIC_URL" {
   default = "https://ecr-public.us-east-1.amazonaws.com"
 }
 
+variable "AWS_ECR_PUBLIC_REPOSITORY_GROUP" {
+  default = "ci"
+}
+
 variable "AWS_ECR_PUBLIC_IMAGE_NAME" {
   default = "dev"
 }
@@ -24,14 +28,6 @@ variable "AWS_ECR_PUBLIC_IMAGE_TAG" {
 
 variable "AWS_ECR_PUBLIC_IMAGE_URI" {
   default = "public.ecr.aws/dev1-sg/ci/dev:latest"
-}
-
-variable "AWS_ECR_PUBLIC_REPOSITORY_GROUP" {
-  default = "ci"
-}
-
-group "default" {
-  targets = ["build"]
 }
 
 target "metadata" {
@@ -55,14 +51,14 @@ target "settings" {
 }
 
 target "test" {
-  inherits = ["settings", "metadata"]
+  inherits   = ["settings", "metadata"]
   dockerfile = "Dockerfile"
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = []
+  platforms  = ["linux/amd64", "linux/arm64"]
+  tags       = []
 }
 
 target "build" {
-  inherits = ["settings", "metadata"]
+  inherits   = ["settings", "metadata"]
   dockerfile = "Dockerfile"
   output     = ["type=docker"]
   tags = [
@@ -72,7 +68,7 @@ target "build" {
 }
 
 target "push" {
-  inherits = ["settings", "metadata"]
+  inherits   = ["settings", "metadata"]
   dockerfile = "Dockerfile"
   output     = ["type=registry"]
   platforms  = ["linux/amd64", "linux/arm64"]
@@ -80,4 +76,8 @@ target "push" {
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:latest",
     "${AWS_ECR_PUBLIC_URI}/${AWS_ECR_PUBLIC_REPOSITORY_GROUP}/${AWS_ECR_PUBLIC_IMAGE_NAME}:${AWS_ECR_PUBLIC_IMAGE_TAG}",
   ]
+}
+
+group "default" {
+  targets = ["test"]
 }

@@ -8,7 +8,7 @@ USER root
 
 RUN apk add --no-cache aws-cli jq
 
-WORKDIR /build
+WORKDIR /builds
 
 FROM base AS build
 

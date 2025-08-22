@@ -1,14 +1,14 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM public.ecr.aws/dev1-sg/alpine/python:3.13.7-3.21 AS base
+FROM public.ecr.aws/dev1-sg/alpine/python:3.13.7-alpine3.21 AS base
 
 USER root
 
 RUN apk add --no-cache aws-cli jq
 
-WORKDIR /build
+WORKDIR /builds
 
-FROM public.ecr.aws/dev1-sg/alpine/node:24.6.0-3.21 AS build
+FROM public.ecr.aws/dev1-sg/alpine/node:24.6.0-alpine3.21 AS build
 
 ARG AWSCDK_VERSION
 

@@ -1,24 +1,21 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM public.ecr.aws/dev1-sg/base/debian:bookworm AS base
+FROM public.ecr.aws/dev1-sg/alpine/alpine:3.22 AS base
 
 ARG TERRAFORM_VERSION
 
 USER root
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends jq
+RUN apk add --no-cache aws-cli jq
 
-WORKDIR /build
+WORKDIR /builds
 
 FROM base AS build
 
 ARG TERRAGRUNT_VERSION=0.78.4
 ARG TERRAFORM_DOCS_VERSION=0.20.0
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends unzip tar gzip \
-    && curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-$(case $(uname -m) in x86_64) echo x86_64 ;; aarch64) echo aarch64 ;; esac).zip" -o /tmp/awscliv2.zip \
-    && unzip -qq /tmp/awscliv2.zip -d /tmp \
-    && bash /tmp/aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli
+RUN apk add --no-cache unzip tar gzip
 
 RUN curl -fsSL "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_$(case $(uname -m) in x86_64) echo amd64 ;; aarch64) echo arm64 ;; esac).zip" -o /tmp/terraform.zip \
     && unzip /tmp/terraform.zip -d /tmp \
@@ -36,8 +33,6 @@ RUN curl -fsSL "https://github.com/terraform-docs/terraform-docs/releases/downlo
 
 FROM base AS final
 
-COPY --from=build /usr/local/aws-cli /usr/local/aws-cli
 COPY --from=build /usr/local/bin /usr/local/bin
 
-RUN apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/cache/apk/*
