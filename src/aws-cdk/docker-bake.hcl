@@ -26,8 +26,12 @@ variable "AWS_ECR_PUBLIC_IMAGE_TAG" {
   default = "latest"
 }
 
-variable "AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE" {
-  default = "alpine"
+variable "AWS_ECR_PUBLIC_IMAGE_TAG_NODE" {
+  default = "node"
+}
+
+variable "AWS_ECR_PUBLIC_IMAGE_TAG_PYTHON" {
+  default = "node"
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_URI" {
