@@ -19,7 +19,7 @@ variable "AWS_ECR_PUBLIC_REPOSITORY_GROUP" {
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_NAME" {
-  default = "cdktf"
+  default = "aws-cdktf"
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_TAG" {
@@ -35,7 +35,7 @@ variable "AWS_ECR_PUBLIC_IMAGE_TAG_PYTHON" {
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_URI" {
-  default = "public.ecr.aws/dev1-sg/ci/cdktf:latest"
+  default = "public.ecr.aws/dev1-sg/ci/aws-cdktf:latest"
 }
 
 target "metadata" {
