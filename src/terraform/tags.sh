@@ -2,7 +2,7 @@
 
 set -e
 
-alpine=$(sed -n 's/^FROM .*:\([0-9.]*\).*/\1/p' Dockerfile.alpine | head -1)
+alpine=$(sed -n 's/^FROM .*:\([0-9.]*\).*/\1/p' Dockerfile | head -1)
 terraform=$(cat .version)
 
 if [ -z "$alpine" ] || [ -z "$terraform" ]; then exit 1; fi

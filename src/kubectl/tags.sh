@@ -2,7 +2,7 @@
 
 set -e
 
-alpine=$(sed -n 's/^FROM .*:\([0-9.]*\).*/\1/p' Dockerfile.alpine | head -1)
+alpine=$(sed -n 's/^FROM .*:\([0-9.]*\).*/\1/p' Dockerfile | head -1)
 kubectl=$(cat .version)
 
 if [ -z "$alpine" ] || [ -z "$kubectl" ]; then exit 1; fi
