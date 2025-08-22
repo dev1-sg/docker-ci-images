@@ -13,6 +13,7 @@ updates:
     directories:
       - /src/ansible-core
       - /src/aws-cdk
+      - /src/aws-cdktf
       - /src/dev
       - /src/docker
       - /src/glab
