@@ -19,7 +19,7 @@ variable "AWS_ECR_PUBLIC_REPOSITORY_GROUP" {
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_NAME" {
-  default = "aws-cdk"
+  default = "terraform"
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_TAG" {
@@ -31,7 +31,7 @@ variable "AWS_ECR_PUBLIC_IMAGE_TAG_ALPINE" {
 }
 
 variable "AWS_ECR_PUBLIC_IMAGE_URI" {
-  default = "public.ecr.aws/dev1-sg/ci/aws-cdk:latest"
+  default = "public.ecr.aws/dev1-sg/ci/terraform:latest"
 }
 
 target "metadata" {
@@ -53,7 +53,7 @@ target "settings" {
     "type=gha,mode=max"
   ]
   args = {
-    AWSCDK_VERSION = "${AWS_ECR_PUBLIC_IMAGE_TAG}"
+    CDKTF_VERSION = "${AWS_ECR_PUBLIC_IMAGE_TAG}"
   }
 }
 

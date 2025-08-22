@@ -53,7 +53,7 @@ target "settings" {
     "type=gha,mode=max"
   ]
   args = {
-    ANSIBLE_VERSION = "${AWS_ECR_PUBLIC_IMAGE_TAG}"
+    GLAB_VERSION = "${AWS_ECR_PUBLIC_IMAGE_TAG}"
   }
 }
 

@@ -12,10 +12,11 @@ FROM public.ecr.aws/dev1-sg/alpine/node:24.6.0-alpine3.21 AS build
 
 ARG AWSCDK_VERSION
 
-RUN npm i -g cdk@${AWSCDK_VERSION}
+RUN npm i -g aws-cdk@${AWSCDK_VERSION}
 
 FROM base AS final
 
+COPY --from=build /opt /opt
 COPY --from=build /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=build /usr/local/bin /usr/local/bin
 
