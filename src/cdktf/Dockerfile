@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM public.ecr.aws/dev1-sg/alpine/python:3.13.7-alpine3.21 AS base
+FROM public.ecr.aws/dev1-sg/alpine/python:3.13.6-alpine3.21 AS base
 
 USER root
 
@@ -8,20 +8,20 @@ RUN apk add --no-cache aws-cli jq
 
 WORKDIR /builds
 
-FROM public.ecr.aws/dev1-sg/alpine/node:24.6.0-alpine3.21 AS build
+FROM public.ecr.aws/dev1-sg/alpine/node:24.5.0-alpine3.21 AS build
 
 COPY --from=base /usr/local/bin /usr/local/bin
 COPY --from=base /usr/local/lib /usr/local/lib
 
-ARG CDKTF_VERSION
+ARG CDKTF_VERSION=0.21.0
 ARG AWSCDK_VERSION=2.1026.0
-ARG TERRAFORM_VERSION=1.12.0
-ARG TERRAGRUNT_VERSION=0.78.4
+ARG TERRAFORM_VERSION=1.13.0
+ARG TERRAGRUNT_VERSION=0.86.0
 ARG TERRAFORM_DOCS_VERSION=0.20.0
 
 RUN apk add --no-cache unzip tar gzip make build-base
 
-RUN npm i -g aws-cdk@${AWSCDK_VERSION} cdktf-cli@${CDKTF_VERSION}
+RUN npm i -g cdktf-cli@${CDKTF_VERSION} aws-cdk@${AWSCDK_VERSION}
 
 RUN curl -fsSL "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_$(case $(uname -m) in x86_64) echo amd64 ;; aarch64) echo arm64 ;; esac).zip" -o /tmp/terraform.zip \
     && unzip /tmp/terraform.zip -d /tmp \
