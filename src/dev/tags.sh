@@ -2,11 +2,11 @@
 
 set -e
 
-alpine=$(sed -n 's/^FROM .*:\([^ -]*\).*/\1/p' Dockerfile | head -1)
+version=$(cat .version)
 
-if [ -z "$alpine" ]; then exit 1; fi
+if [ -z "$version" ]; then exit 1; fi
 
-export AWS_ECR_PUBLIC_IMAGE_TAG="${alpine}"
+export AWS_ECR_PUBLIC_IMAGE_TAG="${version}"
 
 if [ -n "$GITHUB_ENV" ]; then
   echo "AWS_ECR_PUBLIC_IMAGE_TAG=$AWS_ECR_PUBLIC_IMAGE_TAG" >> $GITHUB_ENV
