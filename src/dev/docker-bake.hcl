@@ -26,6 +26,18 @@ variable "AWS_ECR_PUBLIC_IMAGE_TAG" {
   default = "latest"
 }
 
+variable "AWS_ECR_PUBLIC_IMAGE_TAG_GOLANG" {
+  default = "golang"
+}
+
+variable "AWS_ECR_PUBLIC_IMAGE_TAG_PYTHON" {
+  default = "python"
+}
+
+variable "AWS_ECR_PUBLIC_IMAGE_TAG_NODE" {
+  default = "node"
+}
+
 variable "AWS_ECR_PUBLIC_IMAGE_URI" {
   default = "public.ecr.aws/dev1-sg/ci/dev:latest"
 }
@@ -48,6 +60,11 @@ target "settings" {
   cache-to = [
     "type=gha,mode=max"
   ]
+  args = {
+    GOLANG_VERSION = "${AWS_ECR_PUBLIC_IMAGE_TAG_GOLANG}",
+    PYTHON_VERSION = "${AWS_ECR_PUBLIC_IMAGE_TAG_PYTHON}",
+    NODE_VERSION = "${AWS_ECR_PUBLIC_IMAGE_TAG_NODE}",
+  }
 }
 
 target "test" {
